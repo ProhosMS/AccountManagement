@@ -12,8 +12,5 @@ since I'll be working at LinkedIn and they use gradle quite a bit, I decided why
 
 Prerequisites: None, gradle will come bundled with project `gradlew`  
 
-To build run
-
-```
-./gradlew build
-```
++ To build run `./gradlew build`
++ To build IntelliJ Specific files, run `./gradlew idea`
