@@ -150,10 +150,5 @@ public class IndexController extends AbstractController {
     private void updateAccountList(ObservableList<Account> accountList) {
         this.accountList.setItems(accountList);
     }
-
-//    private int findAccount(Account account) {
-//        return Collections.binarySearch(accounts, account);
-//    }
-
 }
 

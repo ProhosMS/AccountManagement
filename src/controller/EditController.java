@@ -45,7 +45,7 @@ public class EditController extends AbstractController implements Initializable 
         amountField.setText("0.0");
         amountField.textProperty().addListener((observer, oldValue, newValue) -> {
             ObservableList<String> styles = amountField.getStyleClass();
-            if (amountField.getText().length() == 0 || NUMBER_PATTERN.matcher(amountField.getText()).find()) {
+            if (verifyAmount(amountField.getText())) {
                 if (styles.contains("btn-danger")) {
                     styles.remove("btn-danger");
                 }
@@ -99,13 +99,45 @@ public class EditController extends AbstractController implements Initializable 
     }
 
     public void depositButtonHandler(ActionEvent actionEvent) {
-        String depositString = FIX_NUMBER_PATTERN.matcher(amountField.getText()).replaceAll("");
-        Double unconvertedDepositAmount = Double.parseDouble(depositString);
-        Double depositAmount = Currency.convert(unconvertedDepositAmount, this.currency);
+        String unverifiedText = amountField.getText();
 
-        account.deposit(depositAmount);
-        amountField.setText("0.0");
-        amountField.requestFocus();
+        if (verifyAmount(unverifiedText)) {
+            String depositString = FIX_NUMBER_PATTERN.matcher(amountField.getText()).replaceAll("");
+            Double unconvertedDepositAmount = Double.parseDouble(depositString);
+            Double depositAmount = Currency.convert(unconvertedDepositAmount, this.currency);
+
+            account.deposit(depositAmount);
+            amountField.setText("0.0");
+            amountField.requestFocus();
+        }
+    }
+
+    public void withdrawButtonHandler(ActionEvent actionEvent) {
+        String fieldText = amountField.getText();
+
+        if (verifyAmount(fieldText)) {
+            String withdrawString = FIX_NUMBER_PATTERN.matcher(fieldText).replaceAll("");
+            Double rawWithdrawAmount = Double.parseDouble(withdrawString);
+            Double withdrawAmount = Currency.convert(rawWithdrawAmount, this.currency);
+            try {
+                account.withdraw(withdrawAmount);
+            } catch (IllegalArgumentException e) {
+                /** What requirements asks me to do
+                 * controller must request the view to open a pop-up window that contains message
+                 * “Insufficient funds: amount to withdraw is x, it is greater than available funds: y”.
+                 * The pop-up window contains button “Dismiss” on pressing which the pop-up window should close.
+                 */
+                System.out.printf(e.getMessage());
+            } finally {
+                amountField.setText("0.0");
+                amountField.requestFocus();
+            }
+        }
+    }
+
+    private boolean verifyAmount(String amountText) {
+        return (amountText.length() == 0 ||
+                NUMBER_PATTERN.matcher(amountText).find());
     }
 
 //

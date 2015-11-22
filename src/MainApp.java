@@ -31,7 +31,7 @@ public class MainApp extends Application {
         controller.init(primaryStage, accountModel);
         controller.setParentStage(primaryStage);
 
-        primaryStage.setScene(new Scene(root, 400, 400));
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }
 

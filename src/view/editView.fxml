@@ -19,7 +19,8 @@
                 <Button fx:id="depositButton" onAction="#depositButtonHandler" mnemonicParsing="false"
                         styleClass="btn-card"
                         text="Deposit" />
-                <Button fx:id="withdrawButton" mnemonicParsing="false" styleClass="btn-card" text="Withdraw" />
+                <Button fx:id="withdrawButton" onAction="#withdrawButtonHandler" mnemonicParsing="false" styleClass="btn-card"
+                        text="Withdraw" />
                 <Button fx:id="dismissButton" onAction="#exitButtonHandler" alignment="CENTER" mnemonicParsing="false"
                         styleClass="btn-danger"
                         text="Dismiss" />

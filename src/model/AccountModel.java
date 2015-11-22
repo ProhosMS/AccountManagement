@@ -34,12 +34,23 @@ public class AccountModel {
     }
 
     public void loadFromFile(String filepath) {
+        /**
+         * The system should have other exceptions as needed (e.g. in response to corrupted or inconsistent content of
+         * the file with accounts;
+         * e.g. inadmissible characters in the fields of an account entry; broken format of the file).
+         * Exceptions should result in useful messages via dismissable pop-up windows.
+         * In case of file inconsistencies messages should mention name of the file,
+         * line number where inconsistency occurred,
+         * nature of inconsistency,
+         * suggestion to fix (e.g. “Name must have only letters” or “Amount must not be negative”).
+         * If an error is unrecoverable the system should exit on dismissing the pop up window.
+         */
         /* TODO Mock it for now */
         accountList.setAll(
-                new Account("Person1", "aaa", 200.0),
-                new Account("Person2", "caa", 300.0),
-                new Account("Person3", "baa", 400.0),
-                new Account("Person4", "baa", 400.0)
+                new Account("Sang Mercado", "1000", 200.0),
+                new Account("Gloria Jauregui", "2000", 300.0),
+                new Account("Jared Pruett", "3000", 400.0),
+                new Account("Yinebeb Zenaw", "4000", 400.0)
         );
         accountList.sorted((a, b) -> a.getID().compareTo(b.getID()));
     }

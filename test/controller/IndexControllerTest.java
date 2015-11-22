@@ -2,6 +2,7 @@ package controller;
 
 import javafx.stage.Stage;
 import model.Account;
+import model.AccountModel;
 import org.mockito.Mockito;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
@@ -37,45 +38,9 @@ public class IndexControllerTest {
 
     @Test
     public void testModels_getUpdated() {
-        /* Since accounts are sorted by ids, binary search would be a good idea */
-
-        /* initialze controller with specific accounts */
-        controller.init(stage, accounts);
-
-        /* initialze updated account */
-        Account updatedAccount = new Account("Person1", "100", 400.0);
-
-        /* update models */
-        controller.updateAccount(updatedAccount);
-
-        /* get list of accounts from controller */
-        List<Account> updatedAccounts = controller.getAccounts();
-
-        /* define expected accounts when they are udpated */
-        List<Account> expectedAccounts = Arrays.asList(
-                new Account("Person1", "100", 400.0),
-                new Account("Person2", "200", 300.0),
-                new Account("Person4", "300", 400.0),
-                new Account("Person3", "400", 400.0)
-        );
-
-        assertEquals(updatedAccounts, expectedAccounts);
     }
 
     @Test
     public void testAccounts_initAccountsGetSortedByID() {
-        /* accounts are unsorted by default */
-        controller.init(stage, accounts);
-
-        List<Account> accounts = controller.getAccounts();
-
-        List<Account> expectedAccounts = Arrays.asList(
-                new Account("Person1", "100", 400.0),
-                new Account("Person2", "200", 300.0),
-                new Account("Person4", "300", 400.0),
-                new Account("Person3", "400", 400.0)
-        );
-
-        assertEquals(accounts, expectedAccounts);
     }
 }
