@@ -1,0 +1,31 @@
+.list-cell:filled:selected:focused {
+    -fx-background-color: #ED1711;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-font-weight: 600;
+}
+
+.list-cell:filled:selected:focused .account-label {
+    -fx-text-fill: #ffffff;
+}
+
+.account-label-header {
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell {
+    -fx-background-color: #f2f2f2;
+    -fx-border-radius: .5em;
+    -fx-background-radius: .5em;
+    -fx-text-fill: #ADADAC;
+}
+.list-view {
+    -fx-background-insets: 0;
+    -fx-background-color: #f2f2f2;
+}
+
+#header-title {
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.6em;
+    -fx-border: 1em;
+}

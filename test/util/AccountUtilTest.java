@@ -2,8 +2,9 @@ package util;
 
 import model.Account;
 import org.testng.annotations.Test;
-import util.AccountReader;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,18 +13,18 @@ import static org.testng.Assert.*;
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class AccountReaderTest {
+public class AccountUtilTest {
 
     @Test(expectedExceptions = {IllegalArgumentException.class},
             expectedExceptionsMessageRegExp = "Account String is invalid. Format should be name id balance")
     public void testReadAccount_handlesEmptyString() {
-        AccountReader.readAccount("");
+        AccountUtil.readAccount("");
     }
 
     @Test(expectedExceptions = {IllegalArgumentException.class},
             expectedExceptionsMessageRegExp = "Account String is invalid. Format should be name id balance")
     public void testReadAccount_handlesInvalidString() {
-        AccountReader.readAccount("invalid string sefesfj sfesef");
+        AccountUtil.readAccount("invalid string sefesfj sfesef");
     }
 
     @Test
@@ -33,7 +34,7 @@ public class AccountReaderTest {
          */
 
         String exampleAccount = "Sang 123123123 $100";
-        Account account = AccountReader.readAccount(exampleAccount);
+        model.Account account = AccountUtil.readAccount(exampleAccount);
         assertEquals(account.getName(), "Sang");
         assertEquals(account.getID(), "123123123");
         assertEquals(account.getBalance(), 100.0);
@@ -42,7 +43,7 @@ public class AccountReaderTest {
     @Test(expectedExceptions = {IllegalArgumentException.class})
     public void testReadAccount_negativeBalanceIsNotAllowed() {
         String exampleAccount = "Sang 123123123 $-100";
-        Account account = AccountReader.readAccount(exampleAccount);
+        model.Account account = AccountUtil.readAccount(exampleAccount);
     }
 
     @Test
@@ -51,5 +52,35 @@ public class AccountReaderTest {
         Matcher matcher = pattern.matcher("$100");
         assertTrue(matcher.find());
         assertEquals(matcher.group(1), "100");
+    }
+
+    @Test
+    public void testRegexPattern_allowOnlyDigits() {
+        Pattern pattern = Pattern.compile("^(?:0|[1-9\\.]\\d{0,2}(?:,?\\d{3})*)(?:\\.\\d+)?$");
+        Matcher matcher1 = pattern.matcher("200.0");
+        Matcher matcher2 = pattern.matcher("2,000.5");
+        Matcher matcher3 = pattern.matcher(".200");
+        Matcher matcher4 = pattern.matcher("1");
+
+        assertTrue(matcher1.find());
+        assertTrue(matcher2.find());
+        assertTrue(matcher3.find());
+        assertTrue(matcher4.find());
+    }
+
+    @Test
+    public void testRegexPattern_dropCommas() {
+        Pattern pattern = Pattern.compile("[^\\d+\\.]+");
+
+        assertEquals(pattern.matcher("2,000").replaceAll(""), "2000");
+        assertEquals(pattern.matcher("2,000.000").replaceAll(""), "2000.000");
+        assertEquals(pattern.matcher("200.0").replaceAll(""), "200.0");
+        assertEquals(pattern.matcher(".00").replaceAll(""), ".00");
+    }
+
+    @Test
+    public void testAccountVerifier() {
+        /* essentially a filter function to verify that given list of accounts is all unique by IDs */
+        /* TODO */
     }
 }

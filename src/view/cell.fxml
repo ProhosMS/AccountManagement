@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<HBox alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountListCellController">
+    <stylesheets>
+        <URL value="@/styles/main.css" />
+        <URL value="@/styles/account-list.css" />
+    </stylesheets>
+    <children>
+        <VBox alignment="CENTER_LEFT">
+            <children>
+                <Label fx:id="accountId" text="accountId">
+                    <font>
+                        <Font size="6.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="account-label" />
+                        <String fx:value="small" />
+                        <String fx:value="text-muted" />
+                    </styleClass>
+                </Label>
+                <Label fx:id="accountName" text="accountName">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="account-label" />
+                        <String fx:value="h4" />
+                    </styleClass>
+                </Label>
+            </children>
+            <HBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </HBox.margin>
+        </VBox>
+        <Region prefHeight="0.0" prefWidth="150.0" />
+        <Label fx:id="accountBalance" text="accountBalance">
+            <styleClass>
+                <String fx:value="account-label" />
+                <String fx:value="h3" />
+            </styleClass>
+            <font>
+                <Font size="24.0" />
+            </font>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+    </children>
+</HBox>

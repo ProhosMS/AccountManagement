@@ -7,6 +7,8 @@ repositories {
 
 dependencies {
     testCompile 'org.testng:testng:6.8'
+    testCompile 'org.mockito:mockito-all:2.0.0-beta'
+
 }
 
 task wrapper(type: Wrapper) {
@@ -20,8 +22,8 @@ sourceSets {
         }
 
         resources {
-            srcDirs = ['src/view']
-            includes= ['**/*.fxml']
+            srcDirs = ['src']
+            includes= ['view/*.fxml', 'styles/*.css', 'images/*.png']
         }
     }
 
