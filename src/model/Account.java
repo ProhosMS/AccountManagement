@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -14,7 +13,8 @@ import java.text.NumberFormat;
  */
 public class Account implements Comparable<Account> {
 
-    private static final String WItHDRAW_ERROR_MSG = "Cannot withdraw. Balance would be less than zero";
+    private static final String WITHDRAW_ERROR_MSG =
+            "Insufficient funds: amount to withdraw is %s, it is greater than available funds: %s";
     private static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
 
     private final StringProperty name = new SimpleStringProperty();
@@ -77,7 +77,8 @@ public class Account implements Comparable<Account> {
     public void withdraw(double amount) {
         Double balance = getBalance();
         if (balance - amount < 0) {
-            throw new IllegalArgumentException(WItHDRAW_ERROR_MSG);
+            throw new IllegalArgumentException(String.format(WITHDRAW_ERROR_MSG, FORMATTER.format(amount), FORMATTER
+                    .format(balance)));
         } else {
             balance -= amount;
             setBalance(balance);
@@ -100,7 +101,7 @@ public class Account implements Comparable<Account> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Account other = (Account)o;
+        final Account other = (Account) o;
         return getID().equals(other.getID());
     }
 

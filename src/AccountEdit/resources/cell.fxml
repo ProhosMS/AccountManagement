@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<HBox alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccountListCellController">
+<HBox alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="AccountEdit.AccountListCellController">
     <stylesheets>
         <URL value="@/styles/main.css" />
         <URL value="@/styles/account-list.css" />

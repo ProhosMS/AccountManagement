@@ -1,13 +1,10 @@
-package view;
+package AccountList;
 
-import controller.AccountListCellController;
-import javafx.fxml.FXML;
+import AccountEdit.AccountListCellController;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.HBox;
 import model.Account;
+import view.View;
 
 import java.io.IOException;
 
@@ -16,12 +13,14 @@ import java.io.IOException;
  */
 public class AccountListCell extends ListCell<Account> {
 
+    private final static String CELL_VIEW_FILE = "/AccountEdit/resources/cell.fxml";
+
     private View cellView;
     private Parent root;
     private AccountListCellController cellController;
 
     public AccountListCell() throws IOException {
-        cellView = new View("/view/cell.fxml");
+        cellView = new View(CELL_VIEW_FILE);
         cellController = cellView.getController();
         root = cellView.getView();
     }

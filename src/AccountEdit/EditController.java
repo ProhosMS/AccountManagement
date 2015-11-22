@@ -1,5 +1,7 @@
-package controller;
+package AccountEdit;
 
+import AccountList.IndexController;
+import controller.AbstractController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.util.converter.NumberStringConverter;
 import model.Account;
 import model.AccountModel;
 import util.Currency;
+import view.View;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -127,7 +130,13 @@ public class EditController extends AbstractController implements Initializable 
                  * “Insufficient funds: amount to withdraw is x, it is greater than available funds: y”.
                  * The pop-up window contains button “Dismiss” on pressing which the pop-up window should close.
                  */
-                System.out.printf(e.getMessage());
+
+//                View errorView = new ErrorView();
+//                ErrorController errorController = errorView.getController();
+//                errorController.init(e.getMessage());
+//                Stage stage = initStage(errorView);
+//                stage.show();
+
             } finally {
                 amountField.setText("0.0");
                 amountField.requestFocus();

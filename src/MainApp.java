@@ -1,21 +1,21 @@
-import controller.IndexController;
+import AccountList.IndexController;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Account;
 import model.AccountModel;
 import util.HandleArguments;
 import view.View;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MainApp extends Application {
 
+    private static final String INDEX_VIEW_FILE = "/AccountList/resources/index.fxml";
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        View mainView = new View("/view/index.fxml");
+        View mainView = new View(INDEX_VIEW_FILE);
 
         Parent root = mainView.getView();
 

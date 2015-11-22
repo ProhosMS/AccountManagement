@@ -1,10 +1,11 @@
-package controller;
+package AccountList;
 
+import AccountEdit.EditController;
+import controller.AbstractController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 import model.Account;
 import model.AccountModel;
 import util.Currency;
-import view.AccountListCell;
+import util.StageUtil;
 import view.View;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class IndexController extends AbstractController {
 
-    private final static String EDIT_VIEW_FILE = "/view/editView.fxml";
+    private final static String EDIT_VIEW_FILE = "/AccountEdit/resources/editView.fxml";
     private Stage primaryStage;
 
     @FXML
@@ -65,13 +66,13 @@ public class IndexController extends AbstractController {
 
             if (actionEvent.getSource() == euroButton) {
                 editView = editView(Currency.EURO, accountModel);
-                stage = initStage(editView);
+                stage = StageUtil.initStage(editView, 300, 300);
             } else if (actionEvent.getSource() == usButton) {
                 editView = editView(Currency.US, accountModel);
-                stage = initStage(editView);
+                stage = StageUtil.initStage(editView, 300, 300);
             } else if (actionEvent.getSource() == yenButton) {
                 editView = editView(Currency.YEN, accountModel);
-                stage = initStage(editView);
+                stage = StageUtil.initStage(editView, 300, 300);
             }
 
             if (stage != null) {
@@ -114,15 +115,6 @@ public class IndexController extends AbstractController {
         fileLabel.setText(fileName);
     }
 
-    public void updateAccount(Account updatedAccount) {
-//        int index = findAccount(updatedAccount);
-//        if (index >= 0) {
-//            this.accounts.set(index, updatedAccount);
-//            int listIndex = this.accountList.getSelectionModel().getSelectedIndex();
-//            updateAccountList(this.accounts, listIndex);
-//        }
-    }
-
     public void setParentStage(Stage stage) {
         this.primaryStage = stage;
         this.primaryStage.setOnCloseRequest(e -> exitButton());
@@ -139,12 +131,6 @@ public class IndexController extends AbstractController {
         controller.init(this, model, currency);
 
         return editView;
-    }
-
-    private Stage initStage(View view) throws IOException {
-        Stage stage = new Stage();
-        stage.setScene(new Scene(view.getView(), 300, 300));
-        return stage;
     }
 
     private void updateAccountList(ObservableList<Account> accountList) {
