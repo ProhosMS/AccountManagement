@@ -1,45 +1,63 @@
 package model;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
 public class Account implements Comparable<Account> {
-    private String name;
-    private String ID;
-    private Double balance;
+
+    private final StringProperty name = new SimpleStringProperty();
+    private final StringProperty ID = new SimpleStringProperty();
+    private final DoubleProperty balance = new SimpleDoubleProperty();
+
+//    private String name;
+//    private String ID;
+//    private Double balance;
 
     private static final String WItHDRAW_ERROR_MSG = "Cannot withdraw. Balance would be less than zero";
+    private static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
 
     public Account(String name, String id, Double balance) {
-        this.name = name;
-        this.ID = id;
-        this.balance = balance;
+        setName(name);
+        setID(id);
+        setBalance(balance);
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public String getID() {
-        return ID;
+        return ID.get();
     }
 
     public void setID(String ID) {
-        this.ID = ID;
+        this.ID.set(ID);
     }
 
     public Double getBalance() {
-        return new BigDecimal(balance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return balance.get();
+    }
+
+    public String getStringBalance() {
+        String balanceString = FORMATTER.format(getBalance());
+        return String.format("$%s", balanceString);
     }
 
     public void setBalance(Double balance) {
-        this.balance = balance;
+        this.balance.set(balance);
     }
 
     @Override
@@ -48,15 +66,19 @@ public class Account implements Comparable<Account> {
     }
 
     public void withdraw(double amount) {
-        if (this.balance - amount < 0) {
+        Double balance = getBalance();
+        if (balance - amount < 0) {
             throw new IllegalArgumentException(WItHDRAW_ERROR_MSG);
         } else {
-            this.balance -= amount;
+            balance -= amount;
+            setBalance(balance);
         }
     }
 
     public void deposit(double amount) {
-        this.balance += amount;
+        Double balance = getBalance();
+        balance += amount;
+        setBalance(balance);
     }
 
     @Override
