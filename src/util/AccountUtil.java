@@ -25,19 +25,4 @@ public class AccountUtil {
 
         return new model.Account(matcher.group(1), matcher.group(2), Double.parseDouble(matcher.group(3)));
     }
-
-    /**
-     * ObservableList is what's required by the JavaFX framework. This function will convert list of accounts to
-     * ObservableList
-     *
-     * @param accounts: list of accounts
-     * @return list of accounts sorted by ids
-     */
-
-    public static List<Account> sortAccountById(List<Account> accounts) {
-        return accounts
-                .stream()
-                .sorted((a, b) -> a.getID().compareTo(b.getID()))
-                .collect(Collectors.toList());
-    }
 }

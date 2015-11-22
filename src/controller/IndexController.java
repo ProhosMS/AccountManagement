@@ -1,7 +1,7 @@
 package controller;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,22 +10,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.Account;
-import util.AccountUtil;
+import model.AccountModel;
 import util.Currency;
 import view.AccountListCell;
 import view.View;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class IndexController {
+public class IndexController extends AbstractController {
 
     private final static String EDIT_VIEW_FILE = "/view/editView.fxml";
-    private List<Account> accounts;
     private Stage primaryStage;
 
     @FXML
@@ -45,7 +43,7 @@ public class IndexController {
 
     @FXML
     private void saveButtonClickEvent() {
-        saveButton.setText("save button clicked");
+        accountModel.saveToFile("/tmp");
     }
 
     @FXML
@@ -63,16 +61,16 @@ public class IndexController {
         View editView = null;
 
         if (this.accountList != null) {
-            Account account = this.accountList.getSelectionModel().getSelectedItem();
+            Account account = accountModel.getCurrentAccount();
 
             if (actionEvent.getSource() == euroButton) {
-                editView = editView(Currency.EURO, account);
+                editView = editView(Currency.EURO, accountModel);
                 stage = initStage(editView);
             } else if (actionEvent.getSource() == usButton) {
-                editView = editView(Currency.US, account);
+                editView = editView(Currency.US, accountModel);
                 stage = initStage(editView);
             } else if (actionEvent.getSource() == yenButton) {
-                editView = editView(Currency.YEN, account);
+                editView = editView(Currency.YEN, accountModel);
                 stage = initStage(editView);
             }
 
@@ -82,12 +80,26 @@ public class IndexController {
         }
     }
 
-    public void init(Stage stage, List<Account> accounts) {
-        this.primaryStage = primaryStage;
-        this.accounts = AccountUtil.sortAccountById(accounts);
-        if (this.accountList != null) {
-            this.updateAccountList(this.accounts, 0);
-            this.accountList.setCellFactory(a -> {
+    public void init(Stage stage, AccountModel model) {
+        primaryStage = primaryStage;
+        initModel(model);
+
+        if (accountList != null) {
+            accountList.getSelectionModel().selectedItemProperty().addListener((obs, oldAccount, newAccount) -> {
+                accountModel.setCurrentAccount(newAccount);
+            });
+
+            updateAccountList(accountModel.getAccountList());
+            /* Just select the first account in the list */
+            accountList.getSelectionModel().select(0);
+
+            accountModel.getCurrentAccountProperty().addListener((obs, oldAccount, newAccount) -> {
+                if (newAccount != null) {
+                    accountList.getSelectionModel().select(newAccount);
+                }
+            });
+
+            accountList.setCellFactory(a -> {
                 try {
                     return new AccountListCell();
                 } catch (IOException e) {
@@ -98,21 +110,17 @@ public class IndexController {
         }
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
     public void setFileLabelName(String fileName) {
         fileLabel.setText(fileName);
     }
 
     public void updateAccount(Account updatedAccount) {
-        int index = findAccount(updatedAccount);
-        if (index >= 0) {
-            this.accounts.set(index, updatedAccount);
-            int listIndex = this.accountList.getSelectionModel().getSelectedIndex();
-            updateAccountList(this.accounts, listIndex);
-        }
+//        int index = findAccount(updatedAccount);
+//        if (index >= 0) {
+//            this.accounts.set(index, updatedAccount);
+//            int listIndex = this.accountList.getSelectionModel().getSelectedIndex();
+//            updateAccountList(this.accounts, listIndex);
+//        }
     }
 
     public void setParentStage(Stage stage) {
@@ -120,11 +128,15 @@ public class IndexController {
         this.primaryStage.setOnCloseRequest(e -> exitButton());
     }
 
-    private View editView(Currency currency, Account account) throws IOException {
+    public List<Account> getAccounts() {
+        return accountModel.getAccountList();
+    }
+
+    private View editView(Currency currency, AccountModel model) throws IOException {
         View editView = new View(EDIT_VIEW_FILE);
         EditController controller = editView.getController();
 
-        controller.init(this, account, currency);
+        controller.init(this, model, currency);
 
         return editView;
     }
@@ -135,15 +147,13 @@ public class IndexController {
         return stage;
     }
 
-    private void updateAccountList(List<Account> accounts, int index) {
-        this.accountList.setItems(null);
-        this.accountList.setItems(FXCollections.observableList(this.accounts));
-        this.accountList.getSelectionModel().select(index);
+    private void updateAccountList(ObservableList<Account> accountList) {
+        this.accountList.setItems(accountList);
     }
 
-    private int findAccount(Account account) {
-        return Collections.binarySearch(accounts, account);
-    }
+//    private int findAccount(Account account) {
+//        return Collections.binarySearch(accounts, account);
+//    }
 
 }
 

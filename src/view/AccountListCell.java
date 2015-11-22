@@ -35,7 +35,7 @@ public class AccountListCell extends ListCell<Account> {
         } else if (cellView != null && account != null) {
             cellController.accountId.setText(account.getID());
             cellController.accountName.setText(account.getName());
-            cellController.accountBalance.setText("$" + account.getBalance().toString());
+            cellController.accountBalance.setText(account.getStringBalance());
             setGraphic(root);
         }
     }

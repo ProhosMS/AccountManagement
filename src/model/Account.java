@@ -14,21 +14,30 @@ import java.text.NumberFormat;
  */
 public class Account implements Comparable<Account> {
 
+    private static final String WItHDRAW_ERROR_MSG = "Cannot withdraw. Balance would be less than zero";
+    private static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
+
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty ID = new SimpleStringProperty();
     private final DoubleProperty balance = new SimpleDoubleProperty();
 
-//    private String name;
-//    private String ID;
-//    private Double balance;
-
-    private static final String WItHDRAW_ERROR_MSG = "Cannot withdraw. Balance would be less than zero";
-    private static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
 
     public Account(String name, String id, Double balance) {
         setName(name);
         setID(id);
         setBalance(balance);
+    }
+
+    public StringProperty getNameProperty() {
+        return this.name;
+    }
+
+    public StringProperty getIDProperty() {
+        return this.ID;
+    }
+
+    public DoubleProperty getBalanceProperty() {
+        return this.balance;
     }
 
     public String getName() {

@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Account;
+import model.AccountModel;
 import util.HandleArguments;
 import view.View;
 
@@ -24,15 +25,10 @@ public class MainApp extends Application {
         List<String> params = getParameters().getRaw();
         String filename = HandleArguments.process(params);
 
-        List<Account> accounts = Arrays.asList(
-                new Account("Person1", "aaa", 200.0),
-                new Account("Person2", "caa", 300.0),
-                new Account("Person3", "baa", 400.0),
-                new Account("Person4", "baa", 400.0)
-        );
+        AccountModel accountModel = new AccountModel();
+        accountModel.loadFromFile(filename);
 
-
-        controller.init(primaryStage, accounts);
+        controller.init(primaryStage, accountModel);
         controller.setParentStage(primaryStage);
 
         primaryStage.setScene(new Scene(root, 400, 400));

@@ -7,7 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 import model.Account;
+import model.AccountModel;
 import util.Currency;
 
 import java.net.URL;
@@ -17,17 +20,16 @@ import java.util.regex.Pattern;
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class EditController implements Initializable {
+public class EditController extends AbstractController implements Initializable {
 
     private static final Pattern NUMBER_PATTERN = Pattern.compile("^(?:0|[1-9\\.]\\d{0,2}(?:,?\\d{3})*)(?:\\.\\d+)?$");
     private static final Pattern FIX_NUMBER_PATTERN = Pattern.compile("[^\\d+\\.]+");
-
 
     private IndexController parentController;
     private Account account;
     private Currency currency;
 
-    /* FXML Properties */
+    /* FXML */
     public TextField amountField;
     public Label accountId;
     public Label accountName;
@@ -55,23 +57,31 @@ public class EditController implements Initializable {
         });
     }
 
-    public void init(IndexController indexController, Account account, Currency currency) {
-        setAccount(account);
+    public void init(IndexController indexController, AccountModel model, Currency currency) {
+        initModel(model);
+        setAccount(model.getCurrentAccount());
         setCurrency(currency);
         setParentController(indexController);
+
+        account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
+            if (newBalance != null) {
+                accountBalance.setText(account.getStringBalance());
+            }
+        });
     }
 
     private void setAccount(Account account) {
         this.account = account;
-        this.accountId.setText(account.getID());
-        this.accountName.setText(account.getName());
-        this.accountBalance.setText("$" + account.getBalance().toString());
+
+        accountId.setText(account.getID());
+        accountName.setText(account.getName());
+        accountBalance.setText(account.getStringBalance());
     }
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
         if (currency == Currency.US) {
-           this.accountCurrency.setText("US");
+            this.accountCurrency.setText("US");
         } else if (currency == Currency.EURO) {
             this.accountCurrency.setText("EURO");
         } else if (currency == Currency.YEN) {
@@ -81,6 +91,21 @@ public class EditController implements Initializable {
 
     public void setParentController(IndexController parentController) {
         this.parentController = parentController;
+    }
+
+    public void exitButtonHandler(ActionEvent actionEvent) {
+        Stage stage = (Stage) dismissButton.getScene().getWindow();
+        stage.close();
+    }
+
+    public void depositButtonHandler(ActionEvent actionEvent) {
+        String depositString = FIX_NUMBER_PATTERN.matcher(amountField.getText()).replaceAll("");
+        Double unconvertedDepositAmount = Double.parseDouble(depositString);
+        Double depositAmount = Currency.convert(unconvertedDepositAmount, this.currency);
+
+        account.deposit(depositAmount);
+        amountField.setText("0.0");
+        amountField.requestFocus();
     }
 
 //

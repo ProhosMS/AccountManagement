@@ -1,5 +1,6 @@
 package model;
 
+import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -10,14 +11,17 @@ import javafx.collections.ObservableList;
  */
 public class AccountModel {
 
-    private ObservableList<Account> accountList = FXCollections.observableArrayList();
+    private ObservableList<Account> accountList = FXCollections
+            .observableArrayList(account -> new Observable[] {
+                    account.getNameProperty(), account.getBalanceProperty(), account.getIDProperty()
+            });
     private ObjectProperty<Account> currentAccount = new SimpleObjectProperty<Account>();
 
     public ObservableList<Account> getAccountList() {
         return accountList;
     }
 
-    public ObjectProperty<Account> currentAccountProperty() {
+    public ObjectProperty<Account> getCurrentAccountProperty() {
         return currentAccount;
     }
 
@@ -38,5 +42,9 @@ public class AccountModel {
                 new Account("Person4", "baa", 400.0)
         );
         accountList.sorted((a, b) -> a.getID().compareTo(b.getID()));
+    }
+
+    public void saveToFile(String filepath) {
+        /* TODO */
     }
 }
