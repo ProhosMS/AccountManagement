@@ -22,11 +22,11 @@ sourceSets {
         }
 
         resources {
-            srcDirs = ['src']
-            includes= ['AccountEdit/resources/*.fxml',
-		       'AccountList/resources/*.fxml',	
-		       'styles/*.css', 
-		       'images/*.png']
+            srcDirs  = ['src']
+            includes = [
+                    'Account*/resources/*',
+                    'styles/*.css',
+            ]
         }
     }
 

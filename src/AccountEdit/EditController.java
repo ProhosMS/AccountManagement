@@ -2,20 +2,21 @@ package AccountEdit;
 
 import AccountList.IndexController;
 import controller.AbstractController;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.converter.NumberStringConverter;
 import model.Account;
 import model.AccountModel;
 import util.Currency;
+import util.StageUtil;
 import view.View;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -45,7 +46,7 @@ public class EditController extends AbstractController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        amountField.setText("0.0");
+        resetAmountField();
         amountField.textProperty().addListener((observer, oldValue, newValue) -> {
             ObservableList<String> styles = amountField.getStyleClass();
             if (verifyAmount(amountField.getText())) {
@@ -60,17 +61,14 @@ public class EditController extends AbstractController implements Initializable 
         });
     }
 
+
     public void init(IndexController indexController, AccountModel model, Currency currency) {
         initModel(model);
         setAccount(model.getCurrentAccount());
         setCurrency(currency);
         setParentController(indexController);
 
-        account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
-            if (newBalance != null) {
-                accountBalance.setText(account.getStringBalance());
-            }
-        });
+
     }
 
     private void setAccount(Account account) {
@@ -79,6 +77,12 @@ public class EditController extends AbstractController implements Initializable 
         accountId.setText(account.getID());
         accountName.setText(account.getName());
         accountBalance.setText(account.getStringBalance());
+
+        account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
+            if (newBalance != null) {
+                accountBalance.setText(account.getStringBalance());
+            }
+        });
     }
 
     public void setCurrency(Currency currency) {
@@ -110,12 +114,11 @@ public class EditController extends AbstractController implements Initializable 
             Double depositAmount = Currency.convert(unconvertedDepositAmount, this.currency);
 
             account.deposit(depositAmount);
-            amountField.setText("0.0");
-            amountField.requestFocus();
+            resetAmountField();
         }
     }
 
-    public void withdrawButtonHandler(ActionEvent actionEvent) {
+    public void withdrawButtonHandler(ActionEvent actionEvent) throws IOException {
         String fieldText = amountField.getText();
 
         if (verifyAmount(fieldText)) {
@@ -131,15 +134,14 @@ public class EditController extends AbstractController implements Initializable 
                  * The pop-up window contains button “Dismiss” on pressing which the pop-up window should close.
                  */
 
-//                View errorView = new ErrorView();
-//                ErrorController errorController = errorView.getController();
-//                errorController.init(e.getMessage());
-//                Stage stage = initStage(errorView);
-//                stage.show();
+                View errorView = new ErrorView();
+                ErrorController errorController = errorView.getController();
+                errorController.init(e.getMessage());
+                Stage stage = StageUtil.initStage(errorView, 450, 200);
+                stage.show();
 
             } finally {
-                amountField.setText("0.0");
-                amountField.requestFocus();
+                resetAmountField();
             }
         }
     }
@@ -149,28 +151,11 @@ public class EditController extends AbstractController implements Initializable 
                 NUMBER_PATTERN.matcher(amountText).find());
     }
 
-//
-//    @FXML
-//    private void deposit(ActionEvent actionEvent) {
-//        String depositString = FIX_NUMBER_PATTERN.matcher(amountField.getText()).replaceAll("");
-//        Double unconvertedDepositAmount = Double.parseDouble(depositString);
-//        Double depositAmount = Currency.convert(unconvertedDepositAmount, this.curreny);
-//
-//        this.account.deposit(depositAmount);
-//
-//        parentController.updateAccount(this.account);
-//        amountField.setText("0.0");
-//    }
-//
-
-//
-//
-//
-//    public void giveAccount(Account selectedItem) {
-//        selectedItem.deposit(200.0);
-//    }
-//
-
-//
+    private void resetAmountField() {
+        amountField.setText("0.0");
+        Platform.runLater(() -> {
+            amountField.requestFocus();
+        });
+    }
 
 }

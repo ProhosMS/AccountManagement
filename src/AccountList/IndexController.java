@@ -1,5 +1,6 @@
 package AccountList;
 
+import AccountAgent.AgentController;
 import AccountEdit.EditController;
 import controller.AbstractController;
 import javafx.application.Platform;
@@ -12,8 +13,10 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.Account;
 import model.AccountModel;
+import model.Agent;
 import util.Currency;
 import util.StageUtil;
+import view.StartAgentView;
 import view.View;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ import java.util.List;
 public class IndexController extends AbstractController {
 
     private final static String EDIT_VIEW_FILE = "/AccountEdit/resources/editView.fxml";
+
     private Stage primaryStage;
 
     @FXML
@@ -41,6 +45,10 @@ public class IndexController extends AbstractController {
     private Label fileLabel;
     @FXML
     private ListView<Account> accountList;
+    @FXML
+    private Button depositAgentButton;
+    @FXML
+    private Button withdrawAgentButton;
 
     @FXML
     private void saveButtonClickEvent() {
@@ -49,11 +57,11 @@ public class IndexController extends AbstractController {
 
     @FXML
     private void exitButton() {
-        this.primaryStage.close();
         this.primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
         });
+        this.primaryStage.close();
     }
 
     @FXML
@@ -66,19 +74,36 @@ public class IndexController extends AbstractController {
 
             if (actionEvent.getSource() == euroButton) {
                 editView = editView(Currency.EURO, accountModel);
-                stage = StageUtil.initStage(editView, 300, 300);
+                stage = StageUtil.initStage(editView, 400, 300);
             } else if (actionEvent.getSource() == usButton) {
                 editView = editView(Currency.US, accountModel);
-                stage = StageUtil.initStage(editView, 300, 300);
+                stage = StageUtil.initStage(editView, 400, 300);
             } else if (actionEvent.getSource() == yenButton) {
                 editView = editView(Currency.YEN, accountModel);
-                stage = StageUtil.initStage(editView, 300, 300);
+                stage = StageUtil.initStage(editView, 400, 300);
             }
 
             if (stage != null) {
                 stage.show();
             }
         }
+    }
+
+    @FXML
+    private void agentHandler(ActionEvent actionEvent) throws IOException {
+        View agentView = new StartAgentView();
+        Stage stage = StageUtil.initStage(agentView, 400, 400);
+        AgentController controller = agentView.getController();
+
+        if (actionEvent.getSource() == depositAgentButton) {
+            /* Deposit Agent specific */
+            controller.init(accountModel.getCurrentAccount(), Agent.Type.Deposit);
+        } else {
+            /* Withdraw Agent specific */
+            controller.init(accountModel.getCurrentAccount(), Agent.Type.Withdraw);
+        }
+
+        stage.show();
     }
 
     public void init(Stage stage, AccountModel model) {

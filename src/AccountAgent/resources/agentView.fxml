@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountAgent.AgentController">
+    <stylesheets>
+        <URL value="@/styles/main.css" />
+        <URL value="@/styles/account-list.css" />
+    </stylesheets>
+   <bottom>
+        <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="startAgentButton" mnemonicParsing="false" onAction="#startAgentHandler" styleClass="btn-card" text="Start Agent" />
+                <Button fx:id="dismissButton" alignment="CENTER" mnemonicParsing="false" onAction="#dismissButtonHandler" styleClass="btn-danger" text="Dismiss" />
+            </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+        </HBox>
+   </bottom>
+   <top>
+      <VBox alignment="CENTER" styleClass="alert-info" BorderPane.alignment="CENTER">
+         <children>
+                  <Label fx:id="agentLabel" style="-fx-text-fill: #808080;" styleClass="h3" text="Withdraw/Deposit Agent" />
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Label fx:id="accountId" text="AccountID">
+                     <styleClass>
+                        <String fx:value="h5" />
+                        <String fx:value="text-warning" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="accountName" text="AccountName">
+                     <styleClass>
+                        <String fx:value="h5" />
+                        <String fx:value="text-warning" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="accountBalance" text="AccountBalance">
+                     <styleClass>
+                        <String fx:value="h5" />
+                        <String fx:value="text-warning" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+         <children>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                    <TextField fx:id="amountField" maxWidth="1.7976931348623157E308" />
+                      <Label fx:id="accountCurrency" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="alert-success" text="Transfer Amount" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <TextField fx:id="amountField1" maxWidth="1.7976931348623157E308" />
+                  <Label fx:id="accountCurrency1" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="alert-success" text="Time Interval (seconds)" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
