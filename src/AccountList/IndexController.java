@@ -10,15 +10,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Account;
-import model.AccountModel;
-import model.Agent;
+import model.Account.Account;
+import model.Account.AccountModel;
+import model.Agent.Agent;
+import model.AgentThreadMonitor;
 import util.Currency;
 import util.StageUtil;
-import view.StartAgentView;
+import AccountAgent.AgentView;
 import view.View;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,27 +31,19 @@ import java.util.List;
 public class IndexController extends AbstractController {
 
     private final static String EDIT_VIEW_FILE = "/AccountEdit/resources/editView.fxml";
+    private File file;
 
     private Stage primaryStage;
 
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button euroButton;
-    @FXML
-    private Button usButton;
-    @FXML
-    private Button yenButton;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Label fileLabel;
-    @FXML
-    private ListView<Account> accountList;
-    @FXML
-    private Button depositAgentButton;
-    @FXML
-    private Button withdrawAgentButton;
+    public Button selectFileButton;
+    public Button euroButton;
+    public Button usButton;
+    public Button yenButton;
+    public Button saveButton;
+    public Label fileLabel;
+    public ListView<Account> accountList;
+    public Button depositAgentButton;
+    public Button withdrawAgentButton;
 
     @FXML
     private void saveButtonClickEvent() {
@@ -61,6 +56,7 @@ public class IndexController extends AbstractController {
             Platform.exit();
             System.exit(0);
         });
+        AgentThreadMonitor.getInstance().shutDown();
         this.primaryStage.close();
     }
 
@@ -91,7 +87,7 @@ public class IndexController extends AbstractController {
 
     @FXML
     private void agentHandler(ActionEvent actionEvent) throws IOException {
-        View agentView = new StartAgentView();
+        View agentView = new AgentView();
         Stage stage = StageUtil.initStage(agentView, 400, 400);
         AgentController controller = agentView.getController();
 
@@ -109,6 +105,8 @@ public class IndexController extends AbstractController {
     public void init(Stage stage, AccountModel model) {
         primaryStage = primaryStage;
         initModel(model);
+
+        fileLabel.setVisible(false);
 
         if (accountList != null) {
             accountList.getSelectionModel().selectedItemProperty().addListener((obs, oldAccount, newAccount) -> {
@@ -136,17 +134,9 @@ public class IndexController extends AbstractController {
         }
     }
 
-    public void setFileLabelName(String fileName) {
-        fileLabel.setText(fileName);
-    }
-
     public void setParentStage(Stage stage) {
         this.primaryStage = stage;
         this.primaryStage.setOnCloseRequest(e -> exitButton());
-    }
-
-    public List<Account> getAccounts() {
-        return accountModel.getAccountList();
     }
 
     private View editView(Currency currency, AccountModel model) throws IOException {
@@ -160,6 +150,13 @@ public class IndexController extends AbstractController {
 
     private void updateAccountList(ObservableList<Account> accountList) {
         this.accountList.setItems(accountList);
+    }
+
+    public void selectFileButtonHandler(ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        file = chooser.showOpenDialog(saveButton.getScene().getWindow());
+        fileLabel.setText(file.getName());
+        fileLabel.setVisible(true);
     }
 }
 

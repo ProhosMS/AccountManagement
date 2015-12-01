@@ -13,9 +13,8 @@
       <URL value="@/styles/account-list.css" />
    </stylesheets>
    <children>
-      <Label fx:id="errorLabel" styleClass="h4" text="ErrorLabel" textAlignment="CENTER" wrapText="true" />
-      <Button fx:id="dismissButton" onAction="#dismissButtonHandler" mnemonicParsing="false" styleClass="btn-danger"
-              text="Dismiss">
+      <Label fx:id="errorLabel" style="-fx-text-fill: #808080;" styleClass="h4" text="ErrorLabel" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="dismissButton" mnemonicParsing="false" onAction="#dismissButtonHandler" styleClass="btn-danger" text="Dismiss">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin></Button>

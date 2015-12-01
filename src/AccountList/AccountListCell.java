@@ -2,7 +2,8 @@ package AccountList;
 
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
-import model.Account;
+import model.Account.Account;
+import util.AccountUtil;
 import view.View;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class AccountListCell extends ListCell<Account> {
         } else if (cellView != null && account != null) {
             cellController.accountId.setText(account.getID());
             cellController.accountName.setText(account.getName());
-            cellController.accountBalance.setText(account.getStringBalance());
+            cellController.accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
             setGraphic(root);
         }
     }

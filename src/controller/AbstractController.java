@@ -1,6 +1,6 @@
 package controller;
 
-import model.AccountModel;
+import model.Account.AccountModel;
 
 /**
  * @author sangm (sang.mercado@gmail.com)

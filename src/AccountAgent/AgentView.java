@@ -1,15 +1,17 @@
-package view;
+package AccountAgent;
+
+import view.View;
 
 import java.io.IOException;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class StartAgentView extends View{
+public class AgentView extends View {
 
     private final static String VIEW_FILE = "/AccountAgent/resources/agentView.fxml";
 
-    public StartAgentView() throws IOException {
+    public AgentView() throws IOException {
         super(VIEW_FILE);
     }
 }

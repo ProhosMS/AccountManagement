@@ -1,13 +1,11 @@
 package util;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import model.Account;
+import model.Account.Account;
 
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
@@ -15,6 +13,7 @@ import java.util.stream.Collectors;
 public class AccountUtil {
     private static final int ACCOUNT_STRING_FIELDS_LENGTH = 3;
     private static final Pattern accountPattern = Pattern.compile("(\\w+)\\s+(\\d+)\\s+\\$(\\d+)");
+    public static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
 
     public static Account readAccount(String accountString) {
         Matcher matcher = accountPattern.matcher(accountString);
@@ -23,6 +22,11 @@ public class AccountUtil {
             throw new IllegalArgumentException("Account String is invalid. Format should be name id balance");
         }
 
-        return new model.Account(matcher.group(1), matcher.group(2), Double.parseDouble(matcher.group(3)));
+        return new Account(matcher.group(1), matcher.group(2), Double.parseDouble(matcher.group(3)));
+    }
+
+    public static String getStringBalance(Double balance) {
+        String balanceString = FORMATTER.format(balance);
+        return String.format("$%s", balanceString);
     }
 }

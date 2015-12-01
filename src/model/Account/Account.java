@@ -1,21 +1,19 @@
-package model;
+package model.Account;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import model.Model;
+import util.AccountUtil;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class Account implements Comparable<Account> {
+public class Account implements Comparable<Account>, Model {
 
     private static final String WITHDRAW_ERROR_MSG =
             "Insufficient funds: amount to withdraw is %s, it is greater than available funds: %s";
-    private static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
 
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty ID = new SimpleStringProperty();
@@ -60,11 +58,6 @@ public class Account implements Comparable<Account> {
         return balance.get();
     }
 
-    public String getStringBalance() {
-        String balanceString = FORMATTER.format(getBalance());
-        return String.format("$%s", balanceString);
-    }
-
     public void setBalance(Double balance) {
         this.balance.set(balance);
     }
@@ -77,7 +70,7 @@ public class Account implements Comparable<Account> {
     public void withdraw(double amount) {
         Double balance = getBalance();
         if (balance - amount < 0) {
-            throw new IllegalArgumentException(String.format(WITHDRAW_ERROR_MSG, FORMATTER.format(amount), FORMATTER
+            throw new IllegalArgumentException(String.format(WITHDRAW_ERROR_MSG, AccountUtil.FORMATTER.format(amount), AccountUtil.FORMATTER
                     .format(balance)));
         } else {
             balance -= amount;

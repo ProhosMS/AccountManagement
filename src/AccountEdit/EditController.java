@@ -10,8 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Account;
-import model.AccountModel;
+import model.Account.Account;
+import model.Account.AccountModel;
+import util.AccountUtil;
 import util.Currency;
 import util.StageUtil;
 import view.View;
@@ -76,11 +77,11 @@ public class EditController extends AbstractController implements Initializable 
 
         accountId.setText(account.getID());
         accountName.setText(account.getName());
-        accountBalance.setText(account.getStringBalance());
+        accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
 
         account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
             if (newBalance != null) {
-                accountBalance.setText(account.getStringBalance());
+                accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
             }
         });
     }
@@ -147,8 +148,7 @@ public class EditController extends AbstractController implements Initializable 
     }
 
     private boolean verifyAmount(String amountText) {
-        return (amountText.length() == 0 ||
-                NUMBER_PATTERN.matcher(amountText).find());
+        return NUMBER_PATTERN.matcher(amountText).find();
     }
 
     private void resetAmountField() {

@@ -1,8 +1,6 @@
 package AccountList;
 
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import model.Account;
 
 /**
  * @author sangm (sang.mercado@gmail.com)

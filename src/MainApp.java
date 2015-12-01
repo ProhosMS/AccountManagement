@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.AccountModel;
+import model.Account.AccountModel;
 import util.HandleArguments;
 import view.View;
 

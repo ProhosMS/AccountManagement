@@ -1,4 +1,4 @@
-package model;
+package model.Account;
 
 import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
@@ -47,10 +47,10 @@ public class AccountModel {
          */
         /* TODO Mock it for now */
         accountList.setAll(
-                new Account("Sang Mercado", "1000", 200.0),
-                new Account("Gloria Jauregui", "2000", 300.0),
-                new Account("Jared Pruett", "3000", 400.0),
-                new Account("Yinebeb Zenaw", "4000", 400.0)
+                new SafeAccount("Sang Mercado", "1000", 200.0),
+                new SafeAccount("Gloria Jauregui", "2000", 300.0),
+                new SafeAccount("Jared Pruett", "3000", 400.0),
+                new SafeAccount("Yinebeb Zenaw", "4000", 400.0)
         );
         accountList.sorted((a, b) -> a.getID().compareTo(b.getID()));
     }
