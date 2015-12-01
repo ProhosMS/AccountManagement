@@ -22,11 +22,8 @@ public class MainApp extends Application {
         IndexController controller = mainView.getController();
 
         /* IndexController expects primaryStage, filename, list of accounts */
-        List<String> params = getParameters().getRaw();
-        String filename = HandleArguments.process(params);
 
         AccountModel accountModel = new AccountModel();
-        accountModel.loadFromFile(filename);
 
         controller.init(primaryStage, accountModel);
         controller.setParentStage(primaryStage);

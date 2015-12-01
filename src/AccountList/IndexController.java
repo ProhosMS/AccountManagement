@@ -2,6 +2,8 @@ package AccountList;
 
 import AccountAgent.AgentController;
 import AccountEdit.EditController;
+import AccountEdit.ErrorController;
+import AccountEdit.ErrorView;
 import controller.AbstractController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -16,12 +18,15 @@ import model.Account.Account;
 import model.Account.AccountModel;
 import model.Agent.Agent;
 import model.AgentThreadMonitor;
+import util.AccountUtil;
 import util.Currency;
 import util.StageUtil;
 import AccountAgent.AgentView;
 import view.View;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -44,11 +49,6 @@ public class IndexController extends AbstractController {
     public ListView<Account> accountList;
     public Button depositAgentButton;
     public Button withdrawAgentButton;
-
-    @FXML
-    private void saveButtonClickEvent() {
-        accountModel.saveToFile("/tmp");
-    }
 
     @FXML
     private void exitButton() {
@@ -102,10 +102,7 @@ public class IndexController extends AbstractController {
         stage.show();
     }
 
-    public void init(Stage stage, AccountModel model) {
-        primaryStage = primaryStage;
-        initModel(model);
-
+    public void prepareFields() {
         fileLabel.setVisible(false);
 
         if (accountList != null) {
@@ -134,6 +131,13 @@ public class IndexController extends AbstractController {
         }
     }
 
+    public void init(Stage stage, AccountModel model) {
+        primaryStage = primaryStage;
+        initModel(model);
+
+        fileLabel.setVisible(false);
+    }
+
     public void setParentStage(Stage stage) {
         this.primaryStage = stage;
         this.primaryStage.setOnCloseRequest(e -> exitButton());
@@ -152,11 +156,35 @@ public class IndexController extends AbstractController {
         this.accountList.setItems(accountList);
     }
 
-    public void selectFileButtonHandler(ActionEvent actionEvent) {
+    public void selectFileButtonHandler(ActionEvent actionEvent) throws IOException {
         FileChooser chooser = new FileChooser();
         file = chooser.showOpenDialog(saveButton.getScene().getWindow());
-        fileLabel.setText(file.getName());
-        fileLabel.setVisible(true);
+
+        try {
+            accountModel.loadFromFile(file);
+            prepareFields();
+
+            fileLabel.setText(file.getName());
+            fileLabel.setVisible(true);
+        } catch (Exception e) {
+            View errorView = new ErrorView();
+            ErrorController errorController = errorView.getController();
+            errorController.init(e.getMessage());
+            Stage stage = StageUtil.initStage(errorView, 450, 200);
+            stage.show();
+        }
+    }
+
+    public void saveButtonHandler(ActionEvent actionEvent) throws IOException {
+        try {
+            accountModel.saveToFile(file);
+        } catch (Exception e) {
+            View errorView = new ErrorView();
+            ErrorController errorController = errorView.getController();
+            errorController.init(e.getMessage());
+            Stage stage = StageUtil.initStage(errorView, 450, 200);
+            stage.show();
+        }
     }
 }
 
