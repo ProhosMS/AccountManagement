@@ -10,6 +10,9 @@ import util.AccountUtil;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
+ *
+ * Controller used to start a new deposit/withdraw agent on a separate thread.
+ *
  */
 public class DefinedAgentController extends AbstractController {
 
@@ -26,6 +29,10 @@ public class DefinedAgentController extends AbstractController {
     public Label stateLabel;
     public Label runningTransferAmountLabel;
 
+    /**
+     * Parent controller will call this function
+     * @param agent
+     */
     public void init(Agent agent) {
         this.agent = agent;
 
@@ -37,6 +44,9 @@ public class DefinedAgentController extends AbstractController {
         agentThreadMonitor.execute(agent);
     }
 
+    /**
+     * Hooks up the labels/fields of the class to specific behaviors
+     */
     private void prepareFields(Agent agent) {
         Agent.Type agentType = agent.getType();
         Double timeInterval = agent.getTimeInterval().doubleValue() / 1000;
@@ -75,21 +85,36 @@ public class DefinedAgentController extends AbstractController {
 
     }
 
+    /**
+     * Every controller has a default exitbButtonHandler.
+     * However, we need to make sure the agent is properly stopped.
+     *
+     * @param actionEvent
+     */
     @Override
     public void exitButtonHandler(ActionEvent actionEvent) {
         super.exitButtonHandler(actionEvent);
         stopAgentButtonHandler();
     }
 
+    /**
+     * Sets the agentStatus to stopped and properly end the thread.
+     */
     public void stopAgentButtonHandler() {
         agent.setStatus(Agent.Status.Stopped);
         agent.stop();
     }
 
+    /**
+     * pauses the agent.
+     */
     public void pauseAgentHandler() {
         agent.pause();
     }
 
+    /**
+     * resumes an agent that is previously paused.
+     */
     public void resumeAgentButtonHandler(ActionEvent actionEvent) {
         agent.resume();
     }

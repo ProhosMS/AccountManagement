@@ -2,7 +2,26 @@
 
 `Used model-view-controller pattern with JavaFX`
 
-# UI Related
+## UML Diagram
+![Class Diagram](images/diagram.png)
+
+## Textual Description of Data Structures in Model package
+
+![Model Diagram](images/modelUml.png)
+
+### Agent
+Agent acts as a base class for both deposit agent and withdraw agent. It implements runnable and gets executed by AgentThreadMonitor/AgentThreadExecutor
+
+### Account
+Account acts a model for the entire program. Any time the properties of this class change, all the controllers get an event.
+
+### ConcurrentAccount
+Account class with withdraw/deposit being thread safe.
+
+### AccountModel
+This is the class that all controllers have as a "singleton model". It is responsibile for returning current account and setting a list of accounts for controllers.
+
+## UI Related
 ##### On start up the system should load a list of accounts from a file specified in a command line and present the user with a frame that contains+ a drop down list populated with account IDs with names appended (in increasing order of IDs); the first account ID should be pre-selected; the items in the drop-down list immutable+ buttons “Edit account in $”; “Edit account in Euros”; “Edit account in Yen”+ button Save+ button Exit
 
 ![AccountList](images/accountList.png)

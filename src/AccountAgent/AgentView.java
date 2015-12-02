@@ -5,6 +5,8 @@ import view.View;
 import java.io.IOException;
 
 /**
+ * Initializes view/controller for agentView.
+ *
  * @author sangm (sang.mercado@gmail.com)
  */
 public class AgentView extends View {

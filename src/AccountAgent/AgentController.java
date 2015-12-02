@@ -13,7 +13,6 @@ import model.Account.Account;
 import model.Agent.Agent;
 import model.Agent.DepositAgent;
 import model.Agent.WithdrawAgent;
-import util.AccountUtil;
 import util.StageUtil;
 
 import java.io.IOException;
@@ -21,6 +20,8 @@ import java.util.regex.Pattern;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
+ *
+ * Controller used to start a DefinedAgent (specifically WithdrawAgent/DepositAgent)
  */
 public class AgentController extends AbstractController {
 
@@ -43,19 +44,28 @@ public class AgentController extends AbstractController {
     public Label accountName;
     public Label accountBalance;
 
+    /**
+     * Parent controller will call this function
+     *
+     * @param account   an account selected from AccountListController
+     * @param agentType type of the agent to be initialized (Deposit/Withdraw)
+     */
     public void init(Account account, Agent.Type agentType) {
         this.agentType = agentType;
-        if (agentType == Agent.Type.Deposit) {
-            agentLabel.setText("Deposit Agent");
-        } else {
-            agentLabel.setText("Withdraw Agent");
-        }
+        agentLabel.setText(agentType.toString());
 
         agentThreadMonitor = AgentThreadMonitor.getInstance();
         setAccount(account);
         prepareFields();
     }
 
+    /**
+     * Gets the required field for agent object and creates a new DefinedAgentView.
+     * Will close the current winow after the DefinedAgentView is open.
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void startAgentHandler(ActionEvent actionEvent) throws IOException {
         String transferString = FIX_NUMBER_PATTERN.matcher(transferField.getText()).replaceAll("");
         Double transferAmount = Double.parseDouble(transferString);
@@ -82,28 +92,18 @@ public class AgentController extends AbstractController {
 
     private void setAccount(Account account) {
         this.account = account;
-
-        accountId.setText(account.getID());
-        accountName.setText(account.getName());
-        accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
-
-        account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
-            if (newBalance != null) {
-                accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
-            }
-        });
     }
 
+    /**
+     * Hooks up the labels/fields of the class to specific behaviors
+     */
     private void prepareFields() {
+        StageUtil.setAccountLabels(account, accountId, accountName, accountBalance);
         timeIntervalField.setText("0.0");
         startAgentButton.setDisable(true);
 
         timeIntervalField.textProperty().addListener((obs, oldValue, newValue) -> {
-            if (verifyTimeInterval() && verifyTransferAmount()) {
-                startAgentButton.setDisable(false);
-            } else {
-                startAgentButton.setDisable(true);
-            }
+            startAgentButton.setDisable(!(verifyTransferAmount() && verifyTransferAmount()));
         });
 
         transferField.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -119,11 +119,7 @@ public class AgentController extends AbstractController {
                 }
             }
 
-            if (verifyTimeInterval() && verifyTransferAmount()) {
-                startAgentButton.setDisable(false);
-            } else {
-                startAgentButton.setDisable(true);
-            }
+            startAgentButton.setDisable(!(verifyTimeInterval() && verifyTransferAmount()));
         });
 
         Platform.runLater(() -> {
@@ -131,11 +127,17 @@ public class AgentController extends AbstractController {
         });
     }
 
+    /**
+     * @return transferAmount is valid
+     */
     private boolean verifyTransferAmount() {
         String transferAmount = transferField.getText();
         return NUMBER_PATTERN.matcher(transferAmount).find();
     }
 
+    /**
+     * @return timeInterval is valid
+     */
     private boolean verifyTimeInterval() {
         String timeInterval = timeIntervalField.getText();
         return TIME_PATTERN.matcher(timeInterval).find();

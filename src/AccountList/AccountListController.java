@@ -165,11 +165,8 @@ public class AccountListController extends AbstractController {
                 fileLabel.setText(file.getName());
                 fileLabel.setVisible(true);
             } catch (Exception e) {
-                View errorView = new ErrorView();
-                ErrorController errorController = errorView.getController();
-                errorController.init(e.getMessage());
-                Stage stage = StageUtil.initStage(errorView, 450, 200);
-                stage.show();
+                View errorView = StageUtil.generateErrorView(e.getMessage(),450, 200);
+                StageUtil.initStage(errorView, 450, 200).show();
             }
         }
     }
@@ -178,11 +175,8 @@ public class AccountListController extends AbstractController {
         try {
             accountModel.saveToFile(file);
         } catch (Exception e) {
-            View errorView = new ErrorView();
-            ErrorController errorController = errorView.getController();
-            errorController.init(e.getMessage());
-            Stage stage = StageUtil.initStage(errorView, 450, 200);
-            stage.show();
+            View errorView = StageUtil.generateErrorView(e.getMessage(),450, 200);
+            StageUtil.initStage(errorView, 450, 200).show();
         }
     }
 }

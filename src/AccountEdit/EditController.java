@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Account.Account;
 import model.Account.AccountModel;
-import util.AccountUtil;
 import util.Currency;
 import util.StageUtil;
 import view.View;
@@ -66,22 +65,11 @@ public class EditController extends AbstractController implements Initializable 
         setAccount(model.getCurrentAccount());
         setCurrency(currency);
         setParentController(accountListController);
-
-
     }
 
     private void setAccount(Account account) {
         this.account = account;
-
-        accountId.setText(account.getID());
-        accountName.setText(account.getName());
-        accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
-
-        account.getBalanceProperty().addListener((obs, oldBalance, newBalance) -> {
-            if (newBalance != null) {
-                accountBalance.setText(AccountUtil.getStringBalance(account.getBalance()));
-            }
-        });
+        StageUtil.setAccountLabels(account, accountId, accountName, accountBalance);
     }
 
     public void setCurrency(Currency currency) {
@@ -128,12 +116,8 @@ public class EditController extends AbstractController implements Initializable 
                  * The pop-up window contains button “Dismiss” on pressing which the pop-up window should close.
                  */
 
-                View errorView = new ErrorView();
-                ErrorController errorController = errorView.getController();
-                errorController.init(e.getMessage());
-                Stage stage = StageUtil.initStage(errorView, 450, 200);
-                stage.show();
-
+                View errorView = StageUtil.generateErrorView(e.getMessage(), 450, 200);
+                StageUtil.initStage(errorView, 450, 200).show();
             } finally {
                 resetAmountField();
             }

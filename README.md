@@ -1,9 +1,16 @@
 # AccountManagement MVC Project
 
-## Example of Account file (better to move onto a sqlite Database)
-## Give an argument when opening file
+### Example of Account file
+```
+Sang Mercado 1000 $600.00
+Gloria Jauregui 2000 $2100.00
+Yinebeb Zenaw 3000 $100.00
+Kyle Johnson 4000 $100.00
+Bonnie 5000 $100.00
+Alex Scott 6000 $500.00
+```
 
-## Tools
+### Tools
 + Gradle
 + IntelliJ IDEA (student license)
 + [SceneBuilder] (http://gluonhq.com/open-source/scene-builder/)
