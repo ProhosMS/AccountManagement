@@ -24,7 +24,7 @@ public class ConcurrentAccount extends Account {
     }
 
     @Override
-    synchronized public void autoWithdraw(double amount, Agent agent) {
+    synchronized public void withdraw(double amount, Agent agent) {
         try {
             while (getBalance() - amount < 0) {
                 Platform.runLater(() -> agent.setStatus(Agent.Status.Blocked));

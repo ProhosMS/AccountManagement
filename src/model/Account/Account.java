@@ -79,7 +79,7 @@ public class Account implements Comparable<Account> {
         }
     }
 
-    public void autoWithdraw(double amount, Agent agent) {
+    public void withdraw(double amount, Agent agent) {
         withdraw(amount);
     }
 

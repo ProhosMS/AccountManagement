@@ -2,9 +2,6 @@ package model.Agent;
 
 import javafx.application.Platform;
 import model.Account.Account;
-import model.Agent.Agent;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
@@ -20,7 +17,7 @@ public class WithdrawAgent extends Agent {
             super.run();
 
             Double transfer = transferAmount.get();
-            account.autoWithdraw(transfer, this);
+            account.withdraw(transfer, this);
 
             Platform.runLater(() -> {
                 setStatus(Status.Running);
