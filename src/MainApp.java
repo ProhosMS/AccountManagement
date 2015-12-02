@@ -3,9 +3,12 @@ import AccountList.AccountListView;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Account.AccountModel;
 import view.View;
+
+import java.util.stream.Collectors;
 
 public class MainApp extends Application {
 

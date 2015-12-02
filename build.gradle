@@ -25,7 +25,7 @@ sourceSets {
             srcDirs  = ['src']
             includes = [
                     'Account*/resources/*',
-                    'styles/*.css',
+                    'styles/*.css', 'styles/*.ttf',
             ]
         }
     }

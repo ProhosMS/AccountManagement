@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Roboto Light';
+    src: url('/styles/Roboto-Light.ttf');
+}
+
+
 /**
  * Base
  */
@@ -13,7 +19,6 @@
 .vbox,
 .pane,
 .scroll-pane {
-    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -fx-font-size: 14px;
     -fx-background-color: transparent;
 }
@@ -29,7 +34,7 @@
 .list-cell,
 .text-area,
 .text-field {
-    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-family: 'Roboto Light';
     -fx-font-size: 14px;
     -fx-text-fill: #333333;
 }
@@ -59,7 +64,7 @@
     -fx-font-size: 75%;
 }
 .code, .kbd, .pre, .samp {
-    -fx-font-family: monospace, serif;
+    -fx-font-family: 'Roboto Light';
     -fx-font-size: 14px; /* 1em; There are bugs on focus. size of 'em' copied and over wrote from other control.  */
 }
 .text-muted {
@@ -111,7 +116,7 @@
 .h4,
 .h5,
 .h6 {
-    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-family: "Roboto Light", Helvetica, Arial, sans-serif;
     -fx-font-weight: 500;
 }
 .h1,
