@@ -1,8 +1,10 @@
 package model;
 
+import model.Account.Account;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 
 /**
@@ -11,18 +13,10 @@ import static org.testng.Assert.assertEquals;
 public class AccountTest {
 
     @Test(expectedExceptions = {IllegalArgumentException.class},
-            expectedExceptionsMessageRegExp = "Cannot withdraw. Balance would be less than zero")
+            expectedExceptionsMessageRegExp = "Insufficient funds: amount to withdraw is 1.10, it is greater than " +
+                    "available funds: 1.00")
     public void testAccount_withdrawThrowsAnExceptionIfBalanceIsLessThanZero() {
         Account account = new Account("Sang", "10000", 1.0);
         account.withdraw(1.1);
-    }
-
-    @Test
-    public void testBalance_toString() {
-        Account account = new Account("Sang", "10000", 100.004);
-        String balance = account.getStringBalance();
-
-        System.out.println(balance);
-        assertEquals(balance, "$100.00");
     }
 }

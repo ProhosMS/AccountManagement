@@ -1,10 +1,8 @@
 package util;
 
-import model.Account;
+import model.Account.Account;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +32,7 @@ public class AccountUtilTest {
          */
 
         String exampleAccount = "Sang 123123123 $100";
-        model.Account account = AccountUtil.readAccount(exampleAccount);
+        Account account = AccountUtil.readAccount(exampleAccount);
         assertEquals(account.getName(), "Sang");
         assertEquals(account.getID(), "123123123");
         assertEquals(account.getBalance(), 100.0);
@@ -43,7 +41,7 @@ public class AccountUtilTest {
     @Test(expectedExceptions = {IllegalArgumentException.class})
     public void testReadAccount_negativeBalanceIsNotAllowed() {
         String exampleAccount = "Sang 123123123 $-100";
-        model.Account account = AccountUtil.readAccount(exampleAccount);
+        Account account = AccountUtil.readAccount(exampleAccount);
     }
 
     @Test
@@ -79,8 +77,28 @@ public class AccountUtilTest {
     }
 
     @Test
-    public void testAccountVerifier() {
-        /* essentially a filter function to verify that given list of accounts is all unique by IDs */
-        /* TODO */
+    public void testBalance_toString() {
+        Account account = new Account("Sang", "10000", 100.004);
+        String balance = AccountUtil.getStringBalance(account.getBalance());
+
+        assertEquals(balance, "$100.00");
+    }
+
+    @Test
+    public void testReadAccount_canContainSpaceInName() {
+        String accountText = "Sang Mercado 10000 $100.0";
+        Account account = AccountUtil.readAccount(accountText);
+        Account expected = new Account("Sang Mercado", "10000", 100.0);
+        assertEquals(account.getName(), expected.getName());
+        assertEquals(account.getID(), expected.getID());
+        assertEquals(account.getBalance(), expected.getBalance());
+    }
+
+    @Test
+    public void testWrite_accountToString() {
+        Account account = new Account("Sang Mercado", "10000", 100.0);
+        /* Should write Sang Mercado */
+        String accountText = AccountUtil.writeAccount(account);
+        assertEquals(accountText, "Sang Mercado 10000 $100.00");
     }
 }
