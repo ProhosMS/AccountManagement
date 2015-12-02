@@ -16,7 +16,7 @@
 <?import javafx.scene.control.TextField?>
 <?import java.net.URL?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountList.IndexController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountList.AccountListController">
     <stylesheets>
         <URL value="@/styles/main.css" />
         <URL value="@/styles/account-list.css" />

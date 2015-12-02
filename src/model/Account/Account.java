@@ -1,16 +1,17 @@
 package model.Account;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import model.Model;
+import model.Agent.Agent;
 import util.AccountUtil;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class Account implements Comparable<Account>, Model {
+public class Account implements Comparable<Account> {
 
     private static final String WITHDRAW_ERROR_MSG =
             "Insufficient funds: amount to withdraw is %s, it is greater than available funds: %s";
@@ -73,15 +74,19 @@ public class Account implements Comparable<Account>, Model {
             throw new IllegalArgumentException(String.format(WITHDRAW_ERROR_MSG, AccountUtil.FORMATTER.format(amount), AccountUtil.FORMATTER
                     .format(balance)));
         } else {
-            balance -= amount;
-            setBalance(balance);
+            Double newBalance = balance - amount;
+            setBalance(newBalance);
         }
+    }
+
+    public void autoWithdraw(double amount, Agent agent) {
+        withdraw(amount);
     }
 
     public void deposit(double amount) {
         Double balance = getBalance();
-        balance += amount;
-        setBalance(balance);
+        Double newBalance = balance + amount;
+        setBalance(newBalance);
     }
 
     @Override

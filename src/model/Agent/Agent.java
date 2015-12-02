@@ -3,7 +3,6 @@ package model.Agent;
 import javafx.beans.property.*;
 import model.Account.Account;
 import model.AgentThreadMonitor;
-import model.Model;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public abstract class Agent implements Runnable, Model {
+public abstract class Agent implements Runnable {
     public enum Type {
         Withdraw, Deposit;
 
@@ -48,21 +47,23 @@ public abstract class Agent implements Runnable, Model {
         agentThreadMonitor = AgentThreadMonitor.getInstance();
     }
 
-    public abstract void run();
+    public void run() {
+        synchronized (lock) {
+            while (paused) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    };
 
     public void resume() {
         synchronized (lock) {
             paused = false;
             setStatus(Status.Running);
             lock.notify();
-        }
-    }
-
-    public void unblock() {
-        synchronized (lock) {
-            if (status.get() == Status.Blocked) {
-                lock.notifyAll();
-            }
         }
     }
 
@@ -73,10 +74,7 @@ public abstract class Agent implements Runnable, Model {
         }
     }
 
-    public void stop(Future<?> task) {
-        if (task != null) {
-            task.cancel(true);
-        }
+    public void stop() {
         isActive = false;
         synchronized (lock) {
             paused = false;
@@ -143,7 +141,7 @@ public abstract class Agent implements Runnable, Model {
         this.runningAmount.set(runningAmount);
     }
 
-    public long getTimeInterval() {
+    public Long getTimeInterval() {
         return timeInterval.get();
     }
 
@@ -151,7 +149,7 @@ public abstract class Agent implements Runnable, Model {
         return timeInterval;
     }
 
-    public void setTimeInterval(long timeInterval) {
+    public void setTimeInterval(Long timeInterval) {
         this.timeInterval.set(timeInterval);
     }
 

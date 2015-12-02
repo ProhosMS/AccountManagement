@@ -1,6 +1,6 @@
 package AccountEdit;
 
-import AccountList.IndexController;
+import AccountList.AccountListController;
 import controller.AbstractController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -30,7 +30,7 @@ public class EditController extends AbstractController implements Initializable 
     private static final Pattern NUMBER_PATTERN = Pattern.compile("^(?:0|[1-9\\.]\\d{0,2}(?:,?\\d{3})*)(?:\\.\\d+)?$");
     private static final Pattern FIX_NUMBER_PATTERN = Pattern.compile("[^\\d+\\.]+");
 
-    private IndexController parentController;
+    private AccountListController parentController;
     private Account account;
     private Currency currency;
 
@@ -63,11 +63,11 @@ public class EditController extends AbstractController implements Initializable 
     }
 
 
-    public void init(IndexController indexController, AccountModel model, Currency currency) {
+    public void init(AccountListController accountListController, AccountModel model, Currency currency) {
         initModel(model);
         setAccount(model.getCurrentAccount());
         setCurrency(currency);
-        setParentController(indexController);
+        setParentController(accountListController);
 
 
     }
@@ -97,7 +97,7 @@ public class EditController extends AbstractController implements Initializable 
         }
     }
 
-    public void setParentController(IndexController parentController) {
+    public void setParentController(AccountListController parentController) {
         this.parentController = parentController;
     }
 

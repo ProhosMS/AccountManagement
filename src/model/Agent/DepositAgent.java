@@ -19,35 +19,20 @@ public class DepositAgent extends Agent {
     @Override
     public void run() {
         while (isActive) {
-            synchronized (lock) {
-                while (paused && isActive) {
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            super.run();
 
-                try {
-                    Double transfer = transferAmount.get();
-                    Platform.runLater(() -> {
-                        counter.set(atomicCounter.getAndIncrement());
-                        account.deposit(transfer);
-                        runningAmount.set(runningAmount.get() + transfer);
-                    });
+            try {
+                Double transfer = transferAmount.get();
 
-                    agentThreadMonitor
-                            .inProgress()
-                            .keySet()
-                            .stream()
-                            .filter(agent -> agent.getType().equals(Type.Withdraw))
-                            .forEach(model.Agent.Agent::unblock);
+                Platform.runLater(() -> {
+                    account.deposit(transfer);
+                    counter.set(atomicCounter.getAndIncrement());
+                    runningAmount.set(runningAmount.get() + transfer);
+                });
 
-                    TimeUnit.SECONDS.sleep(timeInterval.get());
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println(String.format("%s canceled", Thread.currentThread().getName()));
-                }
+                Thread.sleep(timeInterval.get());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

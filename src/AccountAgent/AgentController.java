@@ -65,7 +65,7 @@ public class AgentController extends AbstractController {
     public void startAgentHandler(ActionEvent actionEvent) throws IOException {
         String transferString = FIX_NUMBER_PATTERN.matcher(transferField.getText()).replaceAll("");
         Double transferAmount = Double.parseDouble(transferString);
-        long timeInterval = (long)Double.parseDouble(timeIntervalField.getText());
+        long timeInterval = (long) (Double.parseDouble(timeIntervalField.getText()) * 1000);
         Agent agent;
 
         /* keep track of withdraw/deposit agent, if withdraw agent exist, try to unblock */
@@ -144,11 +144,6 @@ public class AgentController extends AbstractController {
 
     private boolean verifyTimeInterval() {
         String timeInterval = timeIntervalField.getText();
-        if (TIME_PATTERN.matcher(timeInterval).find()) {
-            Double timeIntervalAmount = Double.parseDouble(timeInterval);
-            return (timeIntervalAmount >= 1.0 && !timeInterval.equals("0.0"));
-        } else {
-            return false;
-        }
+        return TIME_PATTERN.matcher(timeInterval).find();
     }
 }

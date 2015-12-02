@@ -17,37 +17,21 @@ public class WithdrawAgent extends Agent {
     @Override
     public void run() {
         while (isActive) {
-            synchronized (lock) {
-                while (paused && !isActive) {
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            super.run();
 
-                try {
-                    /* Withdraw, Keep track of operations, Keep runningAmount */
-                    /* while balance < 0, block the thread */
-                    Double transfer = transferAmount.get();
+            Double transfer = transferAmount.get();
+            account.autoWithdraw(transfer, this);
 
-                    while (account.getBalance() - transfer < 0) {
-                        Platform.runLater(() -> setStatus(Status.Blocked));
-                        lock.wait();
-                    }
+            Platform.runLater(() -> {
+                setStatus(Status.Running);
+                counter.set(atomicCounter.getAndIncrement());
+                runningAmount.set(runningAmount.get() + transfer);
+            });
 
-                    Platform.runLater(() -> {
-                        setStatus(Status.Running);
-                        account.withdraw(transfer);
-                        counter.set(atomicCounter.getAndIncrement());
-                        runningAmount.set(runningAmount.get() + transfer);
-                    });
-
-                    TimeUnit.SECONDS.sleep(timeInterval.get());
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println(String.format("%s canceled", Thread.currentThread().getName()));
-                }
+            try {
+                Thread.sleep(timeInterval.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

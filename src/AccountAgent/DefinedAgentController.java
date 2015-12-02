@@ -15,9 +15,7 @@ import java.util.concurrent.Future;
  */
 public class DefinedAgentController {
 
-
     private AgentThreadMonitor agentThreadMonitor;
-    private Future<?> submitFuture;
     private Agent agent;
 
     public Button resumeAgentButton;
@@ -40,20 +38,18 @@ public class DefinedAgentController {
         agentThreadMonitor = AgentThreadMonitor.getInstance();
 
         agentThreadMonitor.execute(agent);
-//        submitFuture = agentThreadMonitor.submit(agent);
     }
 
     private void prepareFields(Agent agent) {
         Agent.Type agentType = agent.getType();
-        Long timeInterval = agent.getTimeInterval();
+        Double timeInterval = agent.getTimeInterval().doubleValue() / 1000;
         double transferAmount = agent.getTransferAmount();
 
         if (agentType != null) {
             agentLabel.setText(agentType.toString());
         }
 
-        /* timeInterval here is milliseconds, 1000 -> 1 second */
-        timeIntervalLabel.setText(String.format("Every %s second(s)", timeInterval.toString()));
+        timeIntervalLabel.setText(String.format("Every %.2f second(s)", timeInterval));
 
         String transferAmountString = AccountUtil.getStringBalance(transferAmount);
         transferAmountLabel.setText(String.format("Transfer %s", transferAmountString));
@@ -92,7 +88,7 @@ public class DefinedAgentController {
     public void stopAgentButtonHandler() {
         agent.setStatus(Agent.Status.Stopped);
 
-        agent.stop(submitFuture);
+        agent.stop();
     }
 
     public void pauseAgentHandler() {

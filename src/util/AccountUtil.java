@@ -1,7 +1,7 @@
 package util;
 
 import model.Account.Account;
-import model.Account.SafeAccount;
+import model.Account.ConcurrentAccount;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -23,7 +23,7 @@ public class AccountUtil {
             throw new IllegalArgumentException("Account String is invalid. Format should be name id balance");
         }
 
-        return new SafeAccount(matcher.group(1), matcher.group(2), Double.parseDouble(matcher.group(3)));
+        return new ConcurrentAccount(matcher.group(1), matcher.group(2), Double.parseDouble(matcher.group(3)));
     }
 
     public static String getStringBalance(Double balance) {

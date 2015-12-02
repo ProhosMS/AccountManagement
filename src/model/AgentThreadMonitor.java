@@ -32,16 +32,8 @@ public class AgentThreadMonitor {
         taskExecutor.execute(agent);
     }
 
-    public Future<?> submit(Agent agent) {
-        return taskExecutor.submit(agent);
-    }
-
     public Map<Agent, Thread> inProgress() {
         return taskExecutor.getInProgress();
-    }
-
-    public void unblockAgents() {
-        /* I need an internal list of agents that are running */
     }
 
     public void shutDown() {

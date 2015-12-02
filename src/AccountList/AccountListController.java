@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class IndexController extends AbstractController {
+public class AccountListController extends AbstractController {
 
     private final static String EDIT_VIEW_FILE = "/AccountEdit/resources/editView.fxml";
     private File file;
@@ -132,7 +132,7 @@ public class IndexController extends AbstractController {
     }
 
     public void init(Stage stage, AccountModel model) {
-        primaryStage = primaryStage;
+        setParentStage(stage);
         initModel(model);
 
         fileLabel.setVisible(false);
@@ -159,19 +159,20 @@ public class IndexController extends AbstractController {
     public void selectFileButtonHandler(ActionEvent actionEvent) throws IOException {
         FileChooser chooser = new FileChooser();
         file = chooser.showOpenDialog(saveButton.getScene().getWindow());
+        if (file != null) {
+            try {
+                accountModel.loadFromFile(file);
+                prepareFields();
 
-        try {
-            accountModel.loadFromFile(file);
-            prepareFields();
-
-            fileLabel.setText(file.getName());
-            fileLabel.setVisible(true);
-        } catch (Exception e) {
-            View errorView = new ErrorView();
-            ErrorController errorController = errorView.getController();
-            errorController.init(e.getMessage());
-            Stage stage = StageUtil.initStage(errorView, 450, 200);
-            stage.show();
+                fileLabel.setText(file.getName());
+                fileLabel.setVisible(true);
+            } catch (Exception e) {
+                View errorView = new ErrorView();
+                ErrorController errorController = errorView.getController();
+                errorController.init(e.getMessage());
+                Stage stage = StageUtil.initStage(errorView, 450, 200);
+                stage.show();
+            }
         }
     }
 
