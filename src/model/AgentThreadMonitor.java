@@ -37,8 +37,19 @@ public class AgentThreadMonitor {
     }
 
     public void shutDown() {
+        System.out.println(inProgress());
         try {
             System.out.println("attempt to shutdown executor");
+            inProgress()
+                    .entrySet()
+                    .stream()
+                    .forEach(entry -> {
+                        Agent agent = entry.getKey();
+                        Thread thread = entry.getValue();
+                        System.out.println(String.format("Killing Agent (%s) in Thread (%s)", agent, thread));
+                        agent.stop();
+                        thread.interrupt();
+                    });
             taskExecutor.shutdown();
             taskExecutor.awaitTermination(5, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {

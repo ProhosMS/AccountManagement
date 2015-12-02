@@ -52,11 +52,9 @@ public class AccountListController extends AbstractController {
 
     @Override
     public void exitButtonHandler(ActionEvent actionEvent) {
-        this.primaryStage.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
-        });
         AgentThreadMonitor.getInstance().shutDown();
+        Platform.exit();
+        System.exit(0);
         this.primaryStage.close();
     }
 
