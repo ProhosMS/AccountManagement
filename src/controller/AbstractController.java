@@ -1,5 +1,8 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import model.Account.AccountModel;
 
 /**
@@ -8,6 +11,7 @@ import model.Account.AccountModel;
 public class AbstractController implements Controller {
 
     protected AccountModel accountModel;
+    public Button exitButton;
 
     @Override
     public void initModel(AccountModel model) {
@@ -15,5 +19,10 @@ public class AbstractController implements Controller {
             throw new IllegalStateException("Model can only be set once");
         }
         this.accountModel = model;
+    }
+
+    public void exitButtonHandler(ActionEvent actionEvent) {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
     }
 }

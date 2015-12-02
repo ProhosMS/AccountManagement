@@ -22,7 +22,7 @@
                         text="Deposit" />
                 <Button fx:id="withdrawButton" onAction="#withdrawButtonHandler" mnemonicParsing="false" styleClass="btn-card"
                         text="Withdraw" />
-                <Button fx:id="dismissButton" onAction="#exitButtonHandler" alignment="CENTER" mnemonicParsing="false"
+                <Button fx:id="exitButton" onAction="#exitButtonHandler" alignment="CENTER" mnemonicParsing="false"
                         styleClass="btn-danger"
                         text="Dismiss" />
             </children>

@@ -50,8 +50,8 @@ public class AccountListController extends AbstractController {
     public Button depositAgentButton;
     public Button withdrawAgentButton;
 
-    @FXML
-    private void exitButton() {
+    @Override
+    public void exitButtonHandler(ActionEvent actionEvent) {
         this.primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
@@ -140,7 +140,7 @@ public class AccountListController extends AbstractController {
 
     public void setParentStage(Stage stage) {
         this.primaryStage = stage;
-        this.primaryStage.setOnCloseRequest(e -> exitButton());
+        this.primaryStage.setOnCloseRequest(e -> exitButtonHandler(null));
     }
 
     private View editView(Currency currency, AccountModel model) throws IOException {

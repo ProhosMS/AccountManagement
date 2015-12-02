@@ -1,19 +1,17 @@
 package AccountAgent;
 
+import controller.AbstractController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import model.Agent.Agent;
 import model.AgentThreadMonitor;
 import util.AccountUtil;
 
-import java.util.concurrent.Future;
-
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
-public class DefinedAgentController {
+public class DefinedAgentController extends AbstractController {
 
     private AgentThreadMonitor agentThreadMonitor;
     private Agent agent;
@@ -21,7 +19,6 @@ public class DefinedAgentController {
     public Button resumeAgentButton;
     public Button stopAgentButton;
     public Button pauseAgentButton;
-    public Button dismissAgentButton;
     public Label agentLabel;
     public Label timeIntervalLabel;
     public Label operationCountLabel;
@@ -56,7 +53,7 @@ public class DefinedAgentController {
 
         runningTransferAmountLabel.setText(AccountUtil.getStringBalance(0.0));
 
-        dismissAgentButton.setDisable(true);
+        exitButton.setDisable(true);
         resumeAgentButton.setDisable(true);
 
         agent.statusProperty().addListener((obs, oldValue, newValue) -> {
@@ -64,7 +61,7 @@ public class DefinedAgentController {
             stateLabel.setText(validStatus.toString());
 
             if (newValue != null && newValue == Agent.Status.Stopped) {
-                dismissAgentButton.setDisable(false);
+                exitButton.setDisable(false);
                 pauseAgentButton.setDisable(true);
                 stopAgentButton.setDisable(true);
                 resumeAgentButton.setDisable(true);
@@ -78,23 +75,19 @@ public class DefinedAgentController {
 
     }
 
-    public void dismissAgentButtonHandler(ActionEvent actionEvent) {
-        Stage stage = (Stage) dismissAgentButton.getScene().getWindow();
-        stage.close();
-
+    @Override
+    public void exitButtonHandler(ActionEvent actionEvent) {
+        super.exitButtonHandler(actionEvent);
         stopAgentButtonHandler();
     }
 
     public void stopAgentButtonHandler() {
         agent.setStatus(Agent.Status.Stopped);
-
         agent.stop();
     }
 
     public void pauseAgentHandler() {
         agent.pause();
-        /* Rename the button/handler to something more vague that does both pausing/resuming */
-        /* Change class from alert-info to alert-success when going from pause to resume */
     }
 
     public void resumeAgentButtonHandler(ActionEvent actionEvent) {

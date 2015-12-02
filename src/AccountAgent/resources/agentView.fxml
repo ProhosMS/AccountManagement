@@ -21,7 +21,8 @@
                   <String fx:value="btn-info" />
                   <String fx:value="disabled" />
                </styleClass></Button>
-                <Button fx:id="dismissButton" alignment="CENTER" mnemonicParsing="false" onAction="#dismissButtonHandler" styleClass="btn-danger" text="Dismiss" />
+                <Button fx:id="exitButton" alignment="CENTER" mnemonicParsing="false" onAction="#exitButtonHandler"
+                        styleClass="btn-danger" text="Dismiss" />
             </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

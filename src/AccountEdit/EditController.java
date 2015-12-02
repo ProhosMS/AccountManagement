@@ -42,8 +42,6 @@ public class EditController extends AbstractController implements Initializable 
     public Label accountBalance;
     public Button depositButton;
     public Button withdrawButton;
-    public Button dismissButton;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,11 +97,6 @@ public class EditController extends AbstractController implements Initializable 
 
     public void setParentController(AccountListController parentController) {
         this.parentController = parentController;
-    }
-
-    public void exitButtonHandler(ActionEvent actionEvent) {
-        Stage stage = (Stage) dismissButton.getScene().getWindow();
-        stage.close();
     }
 
     public void depositButtonHandler(ActionEvent actionEvent) {

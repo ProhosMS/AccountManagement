@@ -94,7 +94,8 @@
                         <Button fx:id="saveButton" onAction="#saveButtonHandler" mnemonicParsing="false"
                                 styleClass="btn-success"
                                 text="Save" />
-                        <Button mnemonicParsing="false" onAction="#exitButton" styleClass="btn-danger" text="Exit">
+                        <Button mnemonicParsing="false" onAction="#exitButtonHandler" styleClass="btn-danger"
+                                text="Exit">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>

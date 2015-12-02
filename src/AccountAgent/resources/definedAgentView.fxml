@@ -33,7 +33,9 @@
                   <String fx:value="disabled" />
                </styleClass>
             </Button>
-                <Button fx:id="dismissAgentButton" alignment="CENTER" mnemonicParsing="false" onAction="#dismissAgentButtonHandler" styleClass="btn-danger" text="Dismiss Agent" />
+                <Button fx:id="exitButton" alignment="CENTER" mnemonicParsing="false"
+                        onAction="#exitButtonHandler"
+                        styleClass="btn-danger" text="Dismiss Agent" />
             </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

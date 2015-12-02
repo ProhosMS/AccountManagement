@@ -38,7 +38,6 @@ public class AgentController extends AbstractController {
     public TextField timeIntervalField;
     public TextField transferField;
     public Button startAgentButton;
-    public Button dismissButton;
     public Label agentLabel;
     public Label accountId;
     public Label accountName;
@@ -55,11 +54,6 @@ public class AgentController extends AbstractController {
         agentThreadMonitor = AgentThreadMonitor.getInstance();
         setAccount(account);
         prepareFields();
-    }
-
-    public void dismissButtonHandler() {
-        Stage stage = (Stage) dismissButton.getScene().getWindow();
-        stage.close();
     }
 
     public void startAgentHandler(ActionEvent actionEvent) throws IOException {
@@ -83,7 +77,7 @@ public class AgentController extends AbstractController {
         Stage stage = StageUtil.initStage(definedAgentView, 500, 300);
         stage.show();
 
-        dismissButtonHandler();
+        exitButtonHandler(null);
     }
 
     private void setAccount(Account account) {
