@@ -85,6 +85,11 @@ public class AgentController extends AbstractController {
         definedAgentController.init(agent);
 
         Stage stage = StageUtil.initStage(definedAgentView, 500, 300);
+
+        stage.setOnCloseRequest(e -> {
+            definedAgentController.exitButtonHandler(null);
+        });
+
         stage.show();
 
         exitButtonHandler(null);
