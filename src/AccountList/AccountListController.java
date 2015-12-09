@@ -2,6 +2,7 @@ package AccountList;
 
 import AccountAgent.AgentController;
 import AccountEdit.EditController;
+import AccountEdit.EditView;
 import AccountEdit.ErrorController;
 import AccountEdit.ErrorView;
 import controller.AbstractController;
@@ -35,9 +36,7 @@ import java.util.List;
  */
 public class AccountListController extends AbstractController {
 
-    private final static String EDIT_VIEW_FILE = "/AccountEdit/resources/editView.fxml";
     private File file;
-
     private Stage primaryStage;
 
     public Button selectFileButton;
@@ -63,20 +62,16 @@ public class AccountListController extends AbstractController {
         Stage stage = null;
         View editView = null;
 
-        if (this.accountList != null) {
-            Account account = accountModel.getCurrentAccount();
-
+        if (accountList != null) {
             if (actionEvent.getSource() == euroButton) {
                 editView = editView(Currency.EURO, accountModel);
-                stage = StageUtil.initStage(editView, 400, 300);
             } else if (actionEvent.getSource() == usButton) {
                 editView = editView(Currency.US, accountModel);
-                stage = StageUtil.initStage(editView, 400, 300);
             } else if (actionEvent.getSource() == yenButton) {
                 editView = editView(Currency.YEN, accountModel);
-                stage = StageUtil.initStage(editView, 400, 300);
             }
 
+            stage = StageUtil.initStage(editView, 400, 300);
             if (stage != null) {
                 stage.show();
             }
@@ -142,7 +137,7 @@ public class AccountListController extends AbstractController {
     }
 
     private View editView(Currency currency, AccountModel model) throws IOException {
-        View editView = new View(EDIT_VIEW_FILE);
+        View editView = new EditView();
         EditController controller = editView.getController();
 
         controller.init(this, model, currency);
