@@ -1,8 +1,8 @@
 package model;
 
+import javafx.collections.ObservableMap;
 import model.Agent.Agent;
 
-import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -32,15 +32,14 @@ public class AgentThreadMonitor {
         taskExecutor.execute(agent);
     }
 
-    public Map<Agent, Thread> inProgress() {
-        return taskExecutor.getInProgress();
+    public ObservableMap<Agent, Thread> observableRunningAgents() {
+        return taskExecutor.getObservableRunningAgents();
     }
 
     public void shutDown() {
-        System.out.println(inProgress());
         try {
             System.out.println("attempt to shutdown executor");
-            inProgress()
+            observableRunningAgents()
                     .entrySet()
                     .stream()
                     .forEach(entry -> {

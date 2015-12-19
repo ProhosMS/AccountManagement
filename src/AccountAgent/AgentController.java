@@ -108,7 +108,7 @@ public class AgentController extends AbstractController {
         startAgentButton.setDisable(true);
 
         timeIntervalField.textProperty().addListener((obs, oldValue, newValue) -> {
-            startAgentButton.setDisable(!(verifyTransferAmount() && verifyTransferAmount()));
+            startAgentButton.setDisable(!(verifyTimeInterval() && verifyTransferAmount()));
         });
 
         transferField.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -145,6 +145,6 @@ public class AgentController extends AbstractController {
      */
     private boolean verifyTimeInterval() {
         String timeInterval = timeIntervalField.getText();
-        return TIME_PATTERN.matcher(timeInterval).find();
+        return TIME_PATTERN.matcher(timeInterval).find() && Double.parseDouble(timeInterval) > 0.0;
     }
 }

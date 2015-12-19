@@ -1,8 +1,10 @@
-package AccountList;
+package AccountList.view;
 
+import AccountList.AccountListCellController;
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import model.Account.Account;
+import model.Agent.Agent;
 import util.AccountUtil;
 import view.View;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
  */
 public class AccountListCell extends ListCell<Account> {
 
-    private final static String CELL_VIEW_FILE = "/AccountList/resources/cell.fxml";
+    private final static String CELL_VIEW_FILE = "/AccountList/resources/accountCell.fxml";
 
     private View cellView;
     private Parent root;

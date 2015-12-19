@@ -1,3 +1,32 @@
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:horizontal .increment-arrow,
+
+.list-view .scroll-bar:vertical .decrement-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:horizontal .increment-button,
+
+.list-view .scroll-bar:vertical .decrement-button,
+.list-view .scroll-bar:horizontal .decrement-button,
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-padding: 0;
+}
+
+.titled-pane > .title {
+    -fx-background-color: transparent;
+}
+
+.titled-pane > *.content {
+    -fx-border-width: 0;
+}
+
+#agentList .list-cell,
+#accountList .list-cell {
+    -fx-border-radius: 0;
+}
+
 .list-cell:filled:selected:focused {
     -fx-background-color: #ED1711;
     -fx-text-fill: #ffffff;
@@ -13,15 +42,20 @@
     -fx-text-fill: #ffffff;
 }
 
-.list-cell {
-    -fx-background-color: #f2f2f2;
-    -fx-border-radius: .5em;
-    -fx-background-radius: .5em;
-    -fx-text-fill: #ADADAC;
-}
+/*.list-cell {*/
+    /*-fx-background-color: #f2f2f2;*/
+    /*-fx-border-radius: .5em;*/
+    /*-fx-background-radius: .5em;*/
+    /*-fx-text-fill: #ADADAC;*/
+/*}*/
+
 .list-view {
     -fx-background-insets: 0;
     -fx-background-color: #f2f2f2;
+}
+
+#agentList {
+    -fx-background-color: #FFFFFF;
 }
 
 #header-title {

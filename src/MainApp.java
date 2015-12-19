@@ -1,5 +1,5 @@
 import AccountList.AccountListController;
-import AccountList.AccountListView;
+import AccountList.view.AccountListView;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class MainApp extends Application {
 
         controller.init(primaryStage, accountModel);
 
-        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();
     }
 

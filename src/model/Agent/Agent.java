@@ -53,11 +53,11 @@ public abstract class Agent implements Runnable {
                 try {
                     lock.wait();
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    break;
                 }
             }
         }
-    };
+    }
 
     public void resume() {
         synchronized (lock) {
@@ -76,8 +76,9 @@ public abstract class Agent implements Runnable {
 
     public void stop() {
         isActive = false;
-        synchronized (lock) {
-            paused = false;
+        Thread t = agentThreadMonitor.observableRunningAgents().get(this);
+        if (t != null) {
+            t.interrupt();
         }
     }
 

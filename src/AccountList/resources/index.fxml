@@ -22,7 +22,7 @@
         <URL value="@/styles/account-list.css" />
     </stylesheets>
    <center>
-      <ListView fx:id="accountList" BorderPane.alignment="CENTER" />
+      <ListView id="accountList" fx:id="accountList" prefWidth="373.0" BorderPane.alignment="CENTER" />
    </center>
    <top>
       <BorderPane BorderPane.alignment="CENTER">
@@ -107,4 +107,15 @@
          </BorderPane.margin>
       </VBox>
    </bottom>
+   <right>
+      <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="AGENTS">
+         <content>
+            <ListView id="agentList" fx:id="agentList" editable="true">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </ListView>
+         </content>
+      </TitledPane>
+   </right>
 </BorderPane>

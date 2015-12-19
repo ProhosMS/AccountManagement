@@ -1,4 +1,4 @@
-package AccountList;
+package AccountList.view;
 
 import view.View;
 

@@ -3,11 +3,14 @@ package AccountList;
 import AccountAgent.AgentController;
 import AccountEdit.EditController;
 import AccountEdit.EditView;
-import AccountEdit.ErrorController;
-import AccountEdit.ErrorView;
+import AccountList.view.AccountListCell;
+import AccountList.view.AgentCell;
 import controller.AbstractController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,42 +22,40 @@ import model.Account.Account;
 import model.Account.AccountModel;
 import model.Agent.Agent;
 import model.AgentThreadMonitor;
-import util.AccountUtil;
 import util.Currency;
 import util.StageUtil;
 import AccountAgent.AgentView;
 import view.View;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
  */
 public class AccountListController extends AbstractController {
 
+    private ObservableMap<Agent, Thread> runningAgents;
+
     private File file;
     private Stage primaryStage;
 
+    public ListView<Map.Entry<Agent, Thread>> agentList;
+    public ListView<Account> accountList;
     public Button selectFileButton;
     public Button euroButton;
     public Button usButton;
     public Button yenButton;
     public Button saveButton;
     public Label fileLabel;
-    public ListView<Account> accountList;
     public Button depositAgentButton;
     public Button withdrawAgentButton;
 
     @Override
     public void exitButtonHandler(ActionEvent actionEvent) {
-        AgentThreadMonitor.getInstance().shutDown();
-        Platform.exit();
-        System.exit(0);
-        this.primaryStage.close();
+        super.closeSystem();
     }
 
     @FXML
@@ -121,12 +122,31 @@ public class AccountListController extends AbstractController {
                 }
                 return null;
             });
+
+            agentList.setCellFactory(a -> {
+                try {
+                    return new AgentCell();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            });
+        }
+
+        if (agentList != null) {
+            runningAgents
+                    .addListener((MapChangeListener<? super Agent, ? super Thread>) item -> {
+                        Set<Map.Entry<Agent, Thread>> agents = runningAgents.entrySet();
+                        Platform.runLater(() -> agentList.setItems(FXCollections.observableArrayList(agents)));
+                        System.out.println(agents);
+            });
         }
     }
 
     public void init(Stage stage, AccountModel model) {
         setParentStage(stage);
         initModel(model);
+        runningAgents = AgentThreadMonitor.getInstance().observableRunningAgents();
 
         fileLabel.setVisible(false);
     }

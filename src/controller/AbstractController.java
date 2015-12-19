@@ -1,9 +1,11 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import model.Account.AccountModel;
+import model.AgentThreadMonitor;
 
 /**
  * @author sangm (sang.mercado@gmail.com)
@@ -24,5 +26,11 @@ public class AbstractController implements Controller {
     public void exitButtonHandler(ActionEvent actionEvent) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void closeSystem() {
+        AgentThreadMonitor.getInstance().shutDown();
+        Platform.exit();
+        System.exit(0);
     }
 }

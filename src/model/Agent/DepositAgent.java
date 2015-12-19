@@ -20,6 +20,9 @@ public class DepositAgent extends Agent {
     public void run() {
         while (isActive) {
             super.run();
+             if (paused) {
+                 break;
+             }
 
             try {
                 Double transfer = transferAmount.get();
