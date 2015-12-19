@@ -27,7 +27,7 @@
     -fx-border-radius: 0;
 }
 
-.list-cell:filled:selected:focused {
+#accountList .list-cell:filled:selected:focused {
     -fx-background-color: #ED1711;
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);
@@ -42,19 +42,16 @@
     -fx-text-fill: #ffffff;
 }
 
-/*.list-cell {*/
-    /*-fx-background-color: #f2f2f2;*/
-    /*-fx-border-radius: .5em;*/
-    /*-fx-background-radius: .5em;*/
-    /*-fx-text-fill: #ADADAC;*/
-/*}*/
-
 .list-view {
     -fx-background-insets: 0;
     -fx-background-color: #f2f2f2;
 }
 
 #agentList {
+    -fx-background-color: #FFFFFF;
+}
+
+#agentList .list-cell {
     -fx-background-color: #FFFFFF;
 }
 

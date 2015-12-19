@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountList.AgentCellController">
+<GridPane alignment="CENTER" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AccountList.AgentCellController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="0.0" prefWidth="200.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="0.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <Label fx:id="threadLabel" text="Thread ID" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <Label fx:id="agentStatusLabel" text="agentStatus" />
+            <Circle fx:id="agentStatusCircle" fill="DODGERBLUE" radius="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label fx:id="threadLabel" text="Thread ID" />
             <Label fx:id="agentTypeLabel" text="agentType" />
          </children>
       </HBox>
+      <VBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1">
+         <children>
+            <Label fx:id="accountNameLabel" text="accountName">
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </Label>
+            <Label fx:id="agentTransferAmountLabel" styleClass="alert-success" text="accountBalance">
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
    </children>
-</VBox>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>

@@ -35,7 +35,7 @@ public class DepositAgent extends Agent {
 
                 Thread.sleep(timeInterval.get());
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                break;
             }
         }
     }

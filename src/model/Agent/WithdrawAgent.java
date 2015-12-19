@@ -15,6 +15,9 @@ public class WithdrawAgent extends Agent {
     public void run() {
         while (isActive) {
             super.run();
+            if (paused) {
+                break;
+            }
 
             Double transfer = transferAmount.get();
             account.withdraw(transfer, this);
@@ -28,7 +31,7 @@ public class WithdrawAgent extends Agent {
             try {
                 Thread.sleep(timeInterval.get());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                break;
             }
         }
     }

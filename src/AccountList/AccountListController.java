@@ -134,11 +134,12 @@ public class AccountListController extends AbstractController {
         }
 
         if (agentList != null) {
+            agentList.setMouseTransparent(true);
+
             runningAgents
                     .addListener((MapChangeListener<? super Agent, ? super Thread>) item -> {
                         Set<Map.Entry<Agent, Thread>> agents = runningAgents.entrySet();
                         Platform.runLater(() -> agentList.setItems(FXCollections.observableArrayList(agents)));
-                        System.out.println(agents);
             });
         }
     }
