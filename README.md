@@ -1,7 +1,7 @@
 # AccountManagement MVC Project
-`Click on the gif for full video`
+`Click on the gif for video`
 
-[![Demo Gif](assignment-related-resources/images/demo.gif)](https://www.youtube.com/watch?v=fx3GnxdnKAQ)
+[![Demo Gif](assignment-related-resources/images/demo.gif)](https://www.youtube.com/watch?v=sD2Ze8iufFE)
 
 
 ### Example of Account file
