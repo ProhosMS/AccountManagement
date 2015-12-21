@@ -3,9 +3,8 @@
 
 [![Demo Gif](assignment-related-resources/images/demo.gif)](https://www.youtube.com/watch?v=sD2Ze8iufFE)
 
-
 ### Example of Account file
-testFile.txt in this repo is what I am using
+using testFile.txt in this repo
 
 ```
 {name} {id} {balance}
@@ -18,6 +17,9 @@ Alex Scott 6000 $500.00
 ```
 
 ### Run
+
+**Requires Java 8**
+
 ```bash
 # Download from github
 wget http://github.com/sangm/AccountManagement/raw/master/AccountManagement.jar
@@ -25,7 +27,6 @@ wget http://github.com/sangm/AccountManagement/raw/master/AccountManagement.jar
 # command line. You can also just run it by clicking on it
 java -jar AccountManagement.jar
 ```
-
 
 ### Tools
 + Gradle
@@ -39,5 +40,3 @@ Prerequisites: None, gradle will come bundled with project `gradlew`
 
 + To build run `./gradlew build`
 + To build IntelliJ Specific files, run `./gradlew idea`
-
-
